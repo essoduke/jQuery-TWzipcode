@@ -1,199 +1,159 @@
-jQuery-tinyMap
-==============
+# jQuery-TWzipcode
 
-This is a simple plugin of jQuery for helping you to create the simple or complex Google Maps on the page.
+在網頁建立多組 3 碼台灣郵遞區號表單元素的 jQuery Plugin ─ 讀取快速、不需使用資料庫。
 
-Supported layers: Marker, Polyline, Polygon, Circle, Direction and KML.
+[範例展示 Live Demo](http://app.essoduke.org/twzipcode)
 
 
-How to use?
------------
+\* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
 
-First, Create the container in HTML like this:
 
+## 使用 Usage
+
+HTML
 ```html
-<div id="map"></div>
+...
+<head>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.twzipcode-1.6.0.min.js"></script>
+</head>
+<body>
+  
+  <!-- Normal -->
+  <div id="twzipcode"></div>
+  
+  <!-- OR -->
+  <!-- HTML5 data-* (Version 1.5+) -->
+  
+  <div id="twzipcode">
+    <div data-role="county" data-style="Style Name"></div>
+    <div data-role="district" data-style="Style Name"></div>
+    <div data-role="zipcode" data-style="Style Name"></div>
+  </div>
+  
+</body>
+...
 ```
 
-Second, Setting up the style of container:
-
-```css
-#map{width:(WIDTH); height:(HEIGHT)}
-```
-
-Third, Call it!
-
+Javascript
 ```javascript
-$(function () {
-    $('#map').tinyMap();
+$('#twzipcode').twzipcode();
+```
+
+## 參數 Parameters
+
+### countryName (string) 
+指定縣市下拉清單元素的表單名稱。  
+_預設值: country_
+
+### districtName (string)
+指定鄉鎮市區下拉清單元素的表單名稱。  
+_預設值: district_
+
+### zipcodeName (string)
+指定郵遞區號輸入框元素的表單名稱。  
+_預設值: zipcode_
+
+### countySel (string)	
+縣市清單的預設值
+
+### districtSel (string)
+鄉鎮市區清單的預設值
+
+### zipcodeSel (string)
+郵遞區號輸入框的預設值
+
+### onCountySelect (function) 
+`version 1.5+` 綁定縣市選單 Change 事件。
+
+### onDistrictSelect (function) 
+`version 1.5+` 綁定鄉鎮市區選單 Change 事件。
+
+### onZipcodeKeyUp (function) 
+`version 1.5+` 綁定郵遞區號輸入框 keyUp 事件（readonly 必須為 false）。  
+
+### readonly (boolean)
+郵遞區號輸入框是否唯讀？  
+_預設值: true_
+
+### css	(array)
+表單元素樣式名稱，順序格式 `['縣市清單', '鄉鎮市區清單', '郵遞區號輸入框']`
+
+## 方法 Methods
+
+### data
+取得已選取縣市的郵遞區號資料
+```javascript
+var data = $(selector).twzipcode('data');
+console.log(data);
+```
+
+### destory	
+從指定的元素移除 Plugin
+```javascript
+$(selector).twzipcode('destory');
+```
+
+### reset
+將指定的元素恢復未選狀態
+```javascript
+$(selector).twzipcode('reset');
+```
+
+### serialize
+將指定的元素輸出為 URL QueryString。
+```javascript
+var qs = $(selector).twzipcode('serialize');
+console.log(qs);
+// output: 
+// county=AAA&district=BBB&zipcode=999
+```
+
+## 範例
+### 加入郵遞區號預設值，並可輸入郵遞區號取得縣市名稱
+```javascript
+$('selector').twzipcode({
+    'zipcodeSel': 110,
+    'readonly': false
+});
+```
+### 加入縣市預設值
+```javascript
+$('selector').twzipcode({
+    'countySel': '高雄市',
+    'districtSel': '那瑪夏區'
 });
 ```
 
-Options
--------
-*unfinished yet, will be continue.*
+### 指定 CSS 樣式名稱
+```css
+.addr-county{background:#4169E1;color:#fff;}
+.addr-district{background:#008000;color:#fff;}
+.addr-zip{background:#c00;color:#fff;border:1px solid #666;}
+```
+```javascript
+$('#container').twzipcode({
+    'css': [
+        'addr-county', //縣市
+        'addr-distrcit',  // 鄉鎮市區
+        'addr-zip' // 郵遞區號
+    ]
+});
+```
 
-<table class="help">
-        <thead>
-          <tr>
-            <th scope="col" class="param">Name</th>
-            <th scope="col" class="value">Type</th>
-            <th scope="col" class="text">Description (default value)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">center</th>
-            <td class="value">String, Object</td>
-            <td class="text">
-              <p>The center of Map, could be a LatLng or address string.</p>
-              <pre>e.g. center: 'Newyork City' or center: {x: '22.652807', y: '121.483474'}。</pre>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">control</th>
-            <td class="value">Boolean</td>
-            <td class="text">Display MapType controller or not.<span> (true)</span></td>
-          </tr>
-          <tr>
-            <th scope="row">draggable</th>
-            <td class="value">Boolean</td>
-            <td class="text">Enable draggable or not. (true)</td>
-          </tr>
-          <tr>
-            <th scope="row">keyboardShortcuts</th>
-            <td class="value">Boolean</td>
-            <td class="text">Enable keyboard control or not.<span> (true)</span></td>
-          </tr>
-          <tr>
-            <th scope="row">mapTypeId</th>
-            <td class="value">String</td>
-            <td class="text">Map type id.<span> could be `default`, `hybrid`, `roadmap`, `satellite`. (`roadmap`)</span></td>
-          </tr>
-          <tr>
-            <th scope="row">mapTypeControl</th>
-            <td class="value">Boolean</td>
-            <td class="text">Enable change the Map type or not. (true)</td>
-          </tr>
-          <tr>
-            <th scope="row">navigationControl</th>
-            <td class="value">Boolean</td>
-            <td class="text">Display zoom controller or not. (true)</td>
-          </tr>
-          <tr>
-            <th scope="row">scaleControl</th>
-            <td class="value">Boolean</td>
-            <td class="text">Display scale controller or not. (true)</td>
-          </tr>
-          <tr>
-            <th scope="row">scrollwheel</th>
-            <td class="value">Boolean</td>
-            <td class="text">Enable Mouse scroll or not. (true)</td>
-          </tr>
-          <tr>
-            <th scope="row">zoom</th>
-            <td class="value">Integer</td>
-            <td class="text">Default zoom level. (13)</td>
-          </tr>
-          <tr>
-            <th scope="row">marker</th>
-            <td class="value">Array</td>
-            <td class="text">
-              <p>Markers group</p>
-              <pre>[{
-  addr: 'Address or Latlng', //e.g. 'Newyork City' or ['22.652807', '121.483474']
-  text: 'Marker Text',
-  icon: 'ICON URL',
-  label: 'Label text', //Label layer
-  css: 'Style class name'
-}...]</pre>
-              <p>Recommend using LatLng in array format.</p>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">markerFitBounds</th>
-            <td class="value">Bool</td>
-            <td class="text">Auto zoom and center the markers. (false)</span></td>
-          </tr>
-          <tr>
-            <th scope="row">direction</th>
-            <td class="value">Array</td>
-            <td class="text">
-              <p>Path direction</p>
-              <pre>[{
-  from: 'Startup address string',
-  to: 'Destination address string',
-  waypoint: ['midway address 1', 'midway address 2'...],
-  optimize: 'Optimize the path. true|false (false)
-  travel: 'Vehicle type in DRIVING|WALKING|BICYCLING'
-}...]</pre>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">polyline</th>
-            <td class="value">Object</td>
-            <td class="text">
-              <p>Draw the polyline</p>
-              <pre>{
-  coords: [[Lat1, Lng1], [Lat2, Lng2]...] <span>Array</span>,
-  color: 'Line color in HEX' e.g. '#FF0000' (#FF0000),
-  width: 'Line width' (2)</span>
-}</pre>
-            </td>
-          </tr>
-          <tr>
-          <th scope="row">polygon</th>
-            <td class="value">Object</td>
-            <td class="text">
-              <p>Draw the polygon</p>
-              <pre>{
-  coords: [[Lat1, Lng1], [Lat2, Lng2]...] <span>Array</span>,
-  color: 'Line color in HEX' e.g. '#FF0000' (#FF0000),
-  fillcolor: 'Fill color in HEX' e.g. '#FF0000' (#CC0000),
-  width: 'Line width' (2),
-  click: 'Click event' <Function> (null)</span>
-}</pre>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">circle</th>
-            <td class="value">Array</td>
-            <td class="text">
-              <p>繪製圓形</p>
-              <pre>[{
-  center: {x: Lat, y: Lng} <span>圓心座標 JSON</span>,
-  radius: 圓形半徑，單位: 公尺 <span>預設 100</span>,
-  width: 線條寬度 (Integer) <span>預設 2</span>,
-  color: 線條顏色 e.g. '#FF0000' <span>預設 '#FF0000'</span>,
-  fillcolor: 填充顏色 e.g. '#FF0000' <span>預設 '#FF0000'</span>,
-  click: Click 事件 (Function) <span>預設 null</span>
-}...]</pre>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">kml</th>
-            <td class="value">String, JSON</td>
-            <td class="text">
-              <p>KML 網址字串或物件</p>
-              <pre>
-kml: 'KML URL' //e.g. kml: 'http://yourdomain.com/gps.kml'
-OR
-{
-  url: 'KML URL',
-  viewport: true|false, //自動縮放置中地圖以觀看軌跡，預設 true
-  infowindow: true|false, //可點選軌跡以顯示該位置資訊，預設 false
-}</pre>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">notfound</th>
-            <td class="value">String</td>
-            <td class="text">查詢不到地點時顯示的訊息。<span>預設 <strong>找不到查詢的地點</strong></span></td>
-          </tr>
-          <tr>
-            <th scope="row">loading</th>
-            <td class="value">String</td>
-            <td class="text">地圖載入前顯示的文字訊息。<span>預設 <strong>載入中…</strong></span></td>
-          </tr>
-        </tbody>
-      </table>
+或是直接使用 HTML5 data-* 套用樣式
+
+```html
+<div id="twzipcode">
+  <div data-role="zipcode" data-style="addr-zip"></div>
+  <div data-role="county" data-style="addr-county"></div>
+  <div data-role="district" data-style="addr-district"></div>
+</div>
+```
+## 支援
+
+請拜訪 http://app.essoduke.org/twzipcode 留言取得支援。
+
+## 授權
+
+jQuery-TWzipcode 採用[創用 CC 姓名標示-相同方式分享 3.0  台灣授權條款](http://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW)。
