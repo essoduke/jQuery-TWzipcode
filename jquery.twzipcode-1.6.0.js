@@ -12,12 +12,6 @@
  * @author: Essoduke Chang
  * @version: 1.6.0
  *
- * [Changelog]
- * 程式碼重構，增加可讀性。
- * 增加 data 方法可取得目前選取的縣市郵遞區號資料（若無選取則返回全部資料）。
- * 暫時移除 detect 使用的 Geolocation API。
- * 採用 Closure Compiler 製作 production 版本。
- *
  * Last Modify: Tue, 27 August 2013 10:23:56 GMT
  */
 ;(function ($, window, document, undefined) {
