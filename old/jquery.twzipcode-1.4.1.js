@@ -8,26 +8,6 @@
  * 台灣郵遞區號外掛 / Taiwan Zip Code Plugin of jQuery
  * http://app.essoduke.org/twzipcode/
  *
- * version: 1.4:
- *  改寫原始碼以符合 jslint.com
- *  修改參數名稱以更符合語意 areaName => districtName, zipName => zipcodeName, areaSel => districtSel, zipSel => zipcodeSel
- *  加入 destroy, reset, serialize 等方法
- *  修正當指定元素名稱時，若名稱內包含 [] 會發生錯誤的情形。
- *  更新 Creative Commons 至 3.0
- * version 1.3.1:
- *  #因應五都改制，修正為合併後的行政區劃。
- * version 1.3:
- *  #新增輸入郵遞區號取得縣市名稱的功能。（意見提供：ileadu）
- *
- * version 1.2:
- *  #修正 IE6 鄉鎮市區選單只顯示一個以及清單過長的問題
- *
- * version 1.1:
- *  #修正 form reset 時，鄉鎮市區選單無法重置的錯誤
- *  #加入css參數以套用樣式： $(element).twzipcode({ css:[select1, select2, select3] });
- *  #改寫成更簡潔的源碼以增進效能
- *  #使用自訂表單元件名稱
- *
  * Wed, 27 April 2011 10:34:53 GMT
  */
 
