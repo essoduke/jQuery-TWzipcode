@@ -12,7 +12,7 @@
  * @author: Essoduke Chang
  * @version: 1.6.0
  *
- * Last Modify: Tue, 27 August 2013 10:23:57 GMT
+ * Last Modify: Tue, 27 August 2013 10:23:57 GMT 
  */
 ;(function ($, window, document, undefined) {
 
