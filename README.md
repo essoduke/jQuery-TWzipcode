@@ -127,9 +127,9 @@ $('selector').twzipcode({
 
 ### 指定 CSS 樣式名稱
 ```css
-.addr-county{background:#4169E1;color:#fff;}
-.addr-district{background:#008000;color:#fff;}
-.addr-zip{background:#c00;color:#fff;border:1px solid #666;}
+.addr-county{background:#4169E1;color:#fff}
+.addr-district{background:#008000;color:#fff}
+.addr-zip{background:#c00;color:#fff;border:1px solid #666}
 ```
 ```javascript
 $('#container').twzipcode({
