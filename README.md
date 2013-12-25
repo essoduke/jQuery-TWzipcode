@@ -8,6 +8,23 @@
 \* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
 
 
+## 多國語言 i18n
+
+branch: v1.6.1
+
+新增參數
+
+```javascript
+language: 'language file path' //預設自動判斷
+```
+
+Example
+```javascript
+$(selector).twzipcode({
+  language: 'lang/zh-tw' //不需加上 .js
+});
+```
+
 ## 使用 Usage
 
 HTML
