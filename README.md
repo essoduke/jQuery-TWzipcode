@@ -10,7 +10,7 @@
 
 ## 多國語言 i18n
 
-branch: v1.6.1
+Download: [branch v1.6.1](https://github.com/essoduke/jQuery-TWzipcode/tree/i18n)
 
 新增參數
 
