@@ -173,4 +173,5 @@ $('#container').twzipcode({
 
 ## 授權
 
-jQuery-TWzipcode 採用[創用 CC 姓名標示-相同方式分享 3.0  台灣授權條款](http://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW)。
+v1.6.2 開始採用 [MIT License](http://opensource.org/licenses/MIT)  
+v1.6.1 及更早版本採用 [創用 CC 姓名標示-相同方式分享 3.0  台灣授權條款](http://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW)。
