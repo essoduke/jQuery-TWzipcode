@@ -1,9 +1,24 @@
 /**
- * 本著作係依據創用 姓名標示-相同方式分享 3.0 Unported (CC BY-SA 3.0) 授權條款進行授權。
- * 如欲瀏覽本授權條款之副本，請造訪 http://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW
+ * The MIT License
+ * Copyright (c) 2010-2012 Google, Inc. http://angularjs.org
  *
- * This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0).
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/deed.en
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * jQuery TWzipcode 台灣郵遞區號 jQuery 擴充套件
  * 輕鬆地建立多組台灣郵遞區號下拉清單，讀取快速、完全不需使用資料庫。
@@ -14,6 +29,7 @@
  *
  * [Changelog]
  * 修正 destroy 方法註銷 plugin 後不回傳物件導致無法 chain 的錯誤。
+ * 轉換至 MIT 授權
  *
  * Last Modify: Tue, 7 January 2014 09:57:20 GMT
  */
@@ -180,7 +196,7 @@
      * tinyMap prototype
      */
     twzipcode.prototype = {
-        VERSION: '1.6.0',
+        VERSION: '1.6.2',
         /**
          * Method: Get all post data
          * @return {Object}
