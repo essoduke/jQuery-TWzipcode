@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2010-2012 Google, Inc. http://angularjs.org
+ * Copyright (c) 2014 Essoduke Chang. http://essoduke.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,16 @@
  *
  * jQuery TWzipcode 台灣郵遞區號 jQuery 擴充套件
  * 輕鬆地建立多組台灣郵遞區號下拉清單，讀取快速、完全不需使用資料庫。
- * http://app.essoduke.org/twzipcode/
  *
- * @author: Essoduke Chang
- * @version: 1.6.2
+ * @author Essoduke Chang
+ * @see http://app.essoduke.org/twzipcode/
+ * @version 1.6.2
  *
  * [Changelog]
  * 修正 destroy 方法註銷 plugin 後不回傳物件導致無法 chain 的錯誤。
  * 轉換至 MIT 授權
  *
- * Last Modify: Tue, 7 January 2014 09:57:20 GMT
+ * Last Modified Tue, 7 January 2014 09:57:20 GMT
  */
 ;(function ($, window, document, undefined) {
 
