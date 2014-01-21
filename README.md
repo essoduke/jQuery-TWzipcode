@@ -43,9 +43,9 @@ HTML
   <!-- HTML5 data-* (Version 1.5+) -->
   
   <div id="twzipcode">
-    <div data-role="county" data-style="Style Name"></div>
-    <div data-role="district" data-style="Style Name"></div>
-    <div data-role="zipcode" data-style="Style Name"></div>
+    <div data-role="county" data-style="Style Name" data-value="110"></div>
+    <div data-role="district" data-style="Style Name" data-value="台北市"></div>
+    <div data-role="zipcode" data-style="Style Name" data-value="信義區"></div>
   </div>
   
 </body>
