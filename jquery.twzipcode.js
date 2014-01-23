@@ -25,12 +25,12 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.3
+ * @version 1.6.4
  *
  * [Changelog]
- * HTML5 自訂容器加入 data-value 可傳入預設值
+ * 修正預設值無法傳入的問題
  *
- * Last Modified Tue, 21 January 2014 02:20:27 GMT
+ * Last Modified Thu, 23 January 2014 02:21:04 GMT
  */
 ;(function ($, window, undefined) {
 
@@ -351,7 +351,7 @@
 
             dz = undefined !== self.role.zipcode.data('value')
                ? self.role.zipcode.data('value')
-               : (_hasOwnProperty(data, opts.countySel) ? opts.countySel :'');
+               : opts.zipcodeSel;
 
             dc = undefined !== self.role.county.data('value')
                ? self.role.county.data('value')
@@ -359,7 +359,7 @@
 
             dd = undefined !== self.role.district.data('value')
                ? self.role.district.data('value')
-               : (_hasOwnProperty(data, opts.districtSel) ? opts.districtSel :'');
+               : opts.districtSel;
 
             // Default value
             if (dc) {
