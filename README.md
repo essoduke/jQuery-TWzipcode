@@ -162,9 +162,9 @@ $('#container').twzipcode({
 
 ```html
 <div id="twzipcode">
-  <div data-role="zipcode" data-style="addr-zip"></div>
-  <div data-role="county" data-style="addr-county"></div>
-  <div data-role="district" data-style="addr-district"></div>
+  <div data-role="zipcode" data-style="addr-zip" data-name="元素名稱" data-value="預設值"></div>
+  <div data-role="county" data-style="addr-county" data-name="元素名稱" data-value="預設值"></div>
+  <div data-role="district" data-style="addr-district" data-name="元素名稱" data-value="預設值"></div>
 </div>
 ```
 ## 支援
