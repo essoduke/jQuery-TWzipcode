@@ -399,20 +399,25 @@
                     zipcode: container.find('[data-role="zipcode"]:first')
                 };
 
+            var countyName = role.county.data('name') || opts.countyName,
+                districtName = role.district.data('name') || opts.districtName,
+                zipcodeName = role.zipcode.data('name') || opts.zipcodeName,
+                readonly = role.zipcode.data('readonly') || opts.readonly;
+
             // Elements create
             $('<select/>')
-                .attr('name', opts.countyName)
+                .attr('name', countyName)
                 .addClass(role.county.data('style') || (undefined !== opts.css[0] ? opts.css[0] : ''))
                 .appendTo(role.county.length ? role.county : container);
 
             $('<select/>')
-                .attr('name', opts.districtName)
+                .attr('name', districtName)
                 .addClass(role.district.data('style') || (undefined !== opts.css[1] ? opts.css[1] : ''))
                 .appendTo(role.district.length ? role.district : container);
 
             $('<input/>')
-                .attr({'type': 'text', 'name': opts.zipcodeName})
-                .prop('readonly', opts.readonly)
+                .attr({'type': 'text', 'name': zipcodeName})
+                .prop('readonly', readonly)
                 .addClass(role.zipcode.data('style') || (undefined !== opts.css[2] ? opts.css[2] : ''))
                 .appendTo(role.zipcode.length ? role.zipcode : container);
 
