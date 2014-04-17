@@ -422,9 +422,9 @@
                 .appendTo(role.zipcode.length ? role.zipcode : container);
 
             self.wrap = {
-                county: container.find('select[name="' + opts.countyName + '"]:first'),
-                district: container.find('select[name="' + opts.districtName + '"]:first'),
-                zipcode: container.find('input[type=text][name="' + opts.zipcodeName + '"]:first')
+                county: container.find('select[name="' + countyName + '"]:first'),
+                district: container.find('select[name="' + districtName + '"]:first'),
+                zipcode: container.find('input[type=text][name="' + zipcodeName + '"]:first')
             };
 
             self.role = role;
