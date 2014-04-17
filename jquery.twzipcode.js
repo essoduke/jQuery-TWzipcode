@@ -30,7 +30,7 @@
  * [Changelog]
  * 修正預設值無法傳入的問題
  *
- * Last Modified Wed, 12 March 2014 03:20:57 GMT
+ * Last Modified Thu, 23 January 2014 02:21:04 GMT
  */
 ;(function ($, window, undefined) {
 
@@ -140,7 +140,6 @@
         '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'},
         '南海諸島': {'東沙': '817', '南沙': '819'}
     };
-    
     /**
      * _hasOwnProperty for compatibility IE
      * @param {Object} obj Object
@@ -193,7 +192,7 @@
         this.init();
     }
     /**
-     * twzipcode prototype
+     * tinyMap prototype
      */
     twzipcode.prototype = {
 
@@ -207,7 +206,6 @@
             var wrap = this.wrap;
             return _hasOwnProperty(data, wrap.county.val()) ? data[wrap.county.val()] : data;
         },
-        
         /**
          * Method: Serialize the data
          * @return {string}
@@ -273,7 +271,6 @@
             }
             wrap.zipcode.val('');
         },
-        
         /**
          * Binding the event of the elements
          * @this {twzipcode}
@@ -327,8 +324,8 @@
             wrap.zipcode.on('keyup blur', function () {
                 var obj = $(this),
                     val = '',
-                    i   = 0,
-                    j   = 0;
+                    i = 0,
+                    j = 0;
                 obj.val(obj.val().replace(/[^0-9]/g, ''));
                 val = obj.val().toString();
                 if (3 === val.length) {
@@ -352,17 +349,17 @@
                 }
             });
 
-            dz = undefined !== self.role.zipcode.data('value') ?
-                 self.role.zipcode.data('value') :
-                 opts.zipcodeSel;
+            dz = undefined !== self.role.zipcode.data('value')
+               ? self.role.zipcode.data('value')
+               : opts.zipcodeSel;
 
-            dc = undefined !== self.role.county.data('value') ?
-                 self.role.county.data('value') :
-                 (_hasOwnProperty(data, opts.countySel) ? opts.countySel :'');
+            dc = undefined !== self.role.county.data('value')
+               ? self.role.county.data('value')
+               : (_hasOwnProperty(data, opts.countySel) ? opts.countySel :'');
 
-            dd = undefined !== self.role.district.data('value') ?
-                 self.role.district.data('value') :
-                 opts.districtSel;
+            dd = undefined !== self.role.district.data('value')
+               ? self.role.district.data('value')
+               : opts.districtSel;
 
             // Default value
             if (dc) {
@@ -375,7 +372,6 @@
                 self.wrap.zipcode.val(dz).trigger('blur');
             }
         },
-        
         /**
          * Geolocation detect
          * @declare
@@ -383,7 +379,6 @@
          */
         geolocation: function () {
         },
-        
         /**
          * twzipcode Initialize
          * @this {twzipcode}
@@ -436,7 +431,6 @@
             self.geolocation();
         }
     };
-    
     /**
      * jQuery twzipcode instance
      * @param {Object} options Plugin settings
