@@ -1,38 +1,26 @@
 /**
- * The MIT License
- * Copyright (c) 2014 Essoduke Chang. http://essoduke.org
+ * 本著作係依據創用 姓名標示-相同方式分享 3.0 Unported (CC BY-SA 3.0) 授權條款進行授權。
+ * 如欲瀏覽本授權條款之副本，請造訪 http://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0).
+ * To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/deed.en
  *
  * jQuery TWzipcode 台灣郵遞區號 jQuery 擴充套件
  * 輕鬆地建立多組台灣郵遞區號下拉清單，讀取快速、完全不需使用資料庫。
+ * http://app.essoduke.org/twzipcode/
  *
- * @author Essoduke Chang
- * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.4
+ * @author: Essoduke Chang
+ * @version: 1.6.0
  *
  * [Changelog]
- * 修正預設值無法傳入的問題
+ * 程式碼重構，增加可讀性。
+ * 增加 data 方法可取得目前選取的縣市郵遞區號資料（若無選取則返回全部資料）。
+ * 暫時移除 detect 使用的 Geolocation API。
+ * 採用 Closure Compiler 製作 production 版本。
  *
- * Last Modified Wed, 12 March 2014 03:20:57 GMT
+ * Last Modify: Tue, 27 August 2013 10:23:56 GMT
  */
-;(function ($, window, undefined) {
+;(function ($, window, document, undefined) {
 
     'use strict';
 
@@ -140,7 +128,6 @@
         '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'},
         '南海諸島': {'東沙': '817', '南沙': '819'}
     };
-    
     /**
      * _hasOwnProperty for compatibility IE
      * @param {Object} obj Object
@@ -148,7 +135,7 @@
      * @return {bool}
      * @version 2.4.3
      */
-    function _hasOwnProperty (obj, property) {
+    function _hasOwnProperty(obj, property) {
         try {
             return (!window.hasOwnProperty) ? Object.prototype.hasOwnProperty.call(obj, property.toString()) : obj.hasOwnProperty(property.toString());
         } catch (ignore) {
@@ -193,12 +180,10 @@
         this.init();
     }
     /**
-     * twzipcode prototype
+     * tinyMap prototype
      */
     twzipcode.prototype = {
-
-        VERSION: '1.6.4',
-
+        VERSION: '1.6.0',
         /**
          * Method: Get all post data
          * @return {Object}
@@ -207,16 +192,12 @@
             var wrap = this.wrap;
             return _hasOwnProperty(data, wrap.county.val()) ? data[wrap.county.val()] : data;
         },
-        
         /**
          * Method: Serialize the data
          * @return {string}
          */
         serialize: function () {
-            var result = [],
-                obj = {},
-                ele = {},
-                s = {};
+            var result = [], obj = {}, s = {}, ele = {};
             obj = this.container.find('select,input');
             if (obj.length) {
                 obj.each(function () {
@@ -237,9 +218,9 @@
          * @this {twzipcode}
          */
         destroy: function () {
-            $.data(this.container.get(0), 'twzipcode', null);
+            $.data(this.container, 'twzipcode', null);
             if (this.container.length) {
-                return this.container.empty().off('change keyup blur');
+                this.container.empty().off('change keyup blur').remove();
             }
         },
 
@@ -248,12 +229,10 @@
          * @this {twzipcode}
          */
         reset: function (container, obj) {
-            var self = this,
-                wrap = self.wrap,
-                county = {},
+            var wrap = this.wrap,
                 def = ['<option value="">縣市</option>', '<option value="">鄉鎮市區</option>'],
-                tpl = [];
-                
+                tpl = [],
+                county;
             switch (obj) {
             case 'district':
                 wrap.district.empty().html(def[1]);
@@ -263,7 +242,9 @@
                 wrap.district.empty().html(def[1]);
                 for (county in data) {
                     if (_hasOwnProperty(data, county)) {
-                        tpl.push('<option value="' + county + '">');
+                        tpl.push('<option value="');
+                        tpl.push(county);
+                        tpl.push('">');
                         tpl.push(county);
                         tpl.push('</option>');
                     }
@@ -273,7 +254,6 @@
             }
             wrap.zipcode.val('');
         },
-        
         /**
          * Binding the event of the elements
          * @this {twzipcode}
@@ -282,21 +262,20 @@
 
             var self = this,
                 opts = self.options,
-                wrap = self.wrap,
-                dz   = '',
-                dc   = '',
-                dd   = '';
+                wrap = self.wrap;
 
             // county
             wrap.county.on('change', function () {
                 var val = $(this).val(),
-                    district = {},
-                    tpl = [];
+                    tpl = [],
+                    district;
                 wrap.district.empty();
                 if (val) {
                     for (district in data[val]) {
                         if (_hasOwnProperty(data[val], district)) {
-                            tpl.push('<option value="' + district + '">');
+                            tpl.push('<option value="');
+                            tpl.push(district);
+                            tpl.push('">');
                             tpl.push(district);
                             tpl.push('</option>');
                         }
@@ -325,10 +304,7 @@
             });
             // zipcode
             wrap.zipcode.on('keyup blur', function () {
-                var obj = $(this),
-                    val = '',
-                    i   = 0,
-                    j   = 0;
+                var obj = $(this), val = '', i, j;
                 obj.val(obj.val().replace(/[^0-9]/g, ''));
                 val = obj.val().toString();
                 if (3 === val.length) {
@@ -351,31 +327,19 @@
                     opts.onZipcodeKeyUp.call(this, wrap.zipcode);
                 }
             });
-
-            dz = undefined !== self.role.zipcode.data('value') ?
-                 self.role.zipcode.data('value') :
-                 opts.zipcodeSel;
-
-            dc = undefined !== self.role.county.data('value') ?
-                 self.role.county.data('value') :
-                 (_hasOwnProperty(data, opts.countySel) ? opts.countySel :'');
-
-            dd = undefined !== self.role.district.data('value') ?
-                 self.role.district.data('value') :
-                 opts.districtSel;
-
-            // Default value
-            if (dc) {
-                self.wrap.county.val(dc).trigger('change');
-                if (_hasOwnProperty(data[dc], dd)) {
-                    self.wrap.district.val(dd).trigger('change');
+            // if pass the default value
+            if (_hasOwnProperty(data, opts.countySel)) {
+                this.wrap.county.val(opts.countySel).trigger('change');
+                if (_hasOwnProperty(data[opts.countySel], opts.districtSel)) {
+                    this.wrap.district.val(opts.districtSel).trigger('change');
                 }
             }
-            if (dz && 3 === dz.toString().length) {
-                self.wrap.zipcode.val(dz).trigger('blur');
+            if (opts.zipcodeSel) {
+                if (3 === (opts.zipcodeSel.toString()).length) {
+                    this.wrap.zipcode.val(opts.zipcodeSel).trigger('blur');
+                }
             }
         },
-        
         /**
          * Geolocation detect
          * @declare
@@ -383,7 +347,6 @@
          */
         geolocation: function () {
         },
-        
         /**
          * twzipcode Initialize
          * @this {twzipcode}
@@ -399,39 +362,42 @@
                     zipcode: container.find('[data-role="zipcode"]:first')
                 };
 
+            var countyName = role.county.data('name') || opts.countyName,
+                districtName = role.district.data('name') || opts.districtName,
+                zipcodeName = role.zipcode.data('name') || opts.zipcodeName,
+                readonly = role.zipcode.data('readonly') || opts.readonly;
+
             // Elements create
             $('<select/>')
-                .attr('name', opts.countyName)
+                .attr('name', countyName)
                 .addClass(role.county.data('style') || (undefined !== opts.css[0] ? opts.css[0] : ''))
                 .appendTo(role.county.length ? role.county : container);
 
             $('<select/>')
-                .attr('name', opts.districtName)
+                .attr('name', districtName)
                 .addClass(role.district.data('style') || (undefined !== opts.css[1] ? opts.css[1] : ''))
                 .appendTo(role.district.length ? role.district : container);
 
             $('<input/>')
-                .attr({'type': 'text', 'name': opts.zipcodeName})
-                .prop('readonly', opts.readonly)
+                .attr({'type': 'text', 'name': zipcodeName})
+                .prop('readonly', readonly)
                 .addClass(role.zipcode.data('style') || (undefined !== opts.css[2] ? opts.css[2] : ''))
                 .appendTo(role.zipcode.length ? role.zipcode : container);
 
-            self.wrap = {
-                county: container.find('select[name="' + opts.countyName + '"]:first'),
-                district: container.find('select[name="' + opts.districtName + '"]:first'),
-                zipcode: container.find('input[type=text][name="' + opts.zipcodeName + '"]:first')
+            this.wrap = {
+                county: container.find('select[name="' + countyName + '"]:first'),
+                district: container.find('select[name="' + districtName + '"]:first'),
+                zipcode: container.find('input[type=text][name="' + zipcodeName + '"]:first')
             };
 
-            self.role = role;
             // reset the elements
-            self.reset();
+            this.reset();
             // elements event bindings
-            self.bindings();
+            this.bindings();
             // geolocation API (declare)
-            self.geolocation();
+            this.geolocation();
         }
     };
-    
     /**
      * jQuery twzipcode instance
      * @param {Object} options Plugin settings
@@ -440,18 +406,15 @@
     $.fn['twzipcode'] = function (options) {
         if ('string' === typeof options) {
             switch (options) {
-            case 'data':
-            case 'destroy':
-            case 'reset':
-            case 'serialize':
-                var result, instance;
-                this.each(function () {
-                    instance = $.data(this, 'twzipcode');
-                    if (instance instanceof twzipcode && 'function' === typeof instance[options]) {
-                        result = instance[options].apply(instance, Array.prototype.slice.call(arguments, 1));
-                    }
-                });
-                break;
+                case 'data': case 'destroy': case 'reset': case 'serialize':
+                    var result, instance;
+                    this.each(function () {
+                        instance = $.data(this, 'twzipcode');
+                        if (instance instanceof twzipcode && 'function' === typeof instance[options]) {
+                            result = instance[options].apply(instance, Array.prototype.slice.call(arguments, 1));
+                        }
+                    });
+                    break;
             }
             return undefined !== result ? result : this;
         } else {
@@ -463,4 +426,4 @@
         }
     };
 
-}(jQuery, window));
+}(jQuery, window, document));
