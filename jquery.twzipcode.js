@@ -25,10 +25,10 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.4
+ * @version 1.6.5
  *
  * [Changelog]
- * 修正預設值無法傳入的問題
+ * 新增 data-name, data-readonly 設置元素名稱及是否唯讀。
  *
  * Last Modified Wed, 12 March 2014 03:20:57 GMT
  */
