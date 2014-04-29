@@ -85,13 +85,13 @@ _預設值: zipcode_
 _預設值: false_
 
 ### onCountySelect (function) 
-`version 1.5+` 綁定縣市選單 Change 事件。
+`v1.5` 綁定縣市選單 Change 事件。
 
 ### onDistrictSelect (function) 
-`version 1.5+` 綁定鄉鎮市區選單 Change 事件。
+`v1.5` 綁定鄉鎮市區選單 Change 事件。
 
 ### onZipcodeKeyUp (function) 
-`version 1.5+` 綁定郵遞區號輸入框 keyUp 事件（readonly 必須為 false）。  
+`v1.5` 綁定郵遞區號輸入框 keyUp 事件（readonly 必須為 false）。  
 
 ### readonly (boolean)
 郵遞區號輸入框是否唯讀？  
