@@ -80,6 +80,10 @@ _預設值: zipcode_
 ### zipcodeSel (string)
 郵遞區號輸入框的預設值
 
+### zipcodeIntoDistrict (bool)
+`v1.6.6` 是否隱藏郵遞區號輸入框並顯示於鄉鎮市區清單內？
+_預設值: false_
+
 ### onCountySelect (function) 
 `version 1.5+` 綁定縣市選單 Change 事件。
 
