@@ -25,12 +25,12 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.5
+ * @version 1.6.6
  *
  * [Changelog]
- * 新增 data-name, data-readonly 設置元素名稱及是否唯讀。
+ * 新增 zipcodeIntoDistrict 參數，可隱藏郵遞區號輸入框，並顯示於鄉鎮市區清單內。
  *
- * Last Modified Wed, 12 March 2014 03:20:57 GMT
+ * Last Modified Tue, 29 April 2014 07:58:09 GMT
  */
 ;(function ($, window, undefined) {
 
@@ -140,7 +140,7 @@
         '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'},
         '南海諸島': {'東沙': '817', '南沙': '819'}
     };
-    
+
     /**
      * _hasOwnProperty for compatibility IE
      * @param {Object} obj Object
@@ -166,7 +166,7 @@
          * @type {Object}
          */
         var defaults = {
-            detect: false, //v1.4
+            detect: false,             // v1.4
             countyName: 'county',
             districtName: 'district',
             zipcodeName: 'zipcode',
@@ -174,10 +174,11 @@
             districtSel: '',
             zipcodeSel: '',
             readonly: false,
-            onCountySelect: null, //v1.5
-            onDistrictSelect: null, //v1.5
-            onZipcodeKeyUp: null,  //v1.5
-            css: []
+            onCountySelect: null,      // v1.5
+            onDistrictSelect: null,    // v1.5
+            onZipcodeKeyUp: null,      // v1.5
+            css: [],
+            zipcodeIntoDistrict: false // v1.6.6
         };
         /**
          * DOM of selector
@@ -197,7 +198,7 @@
      */
     twzipcode.prototype = {
 
-        VERSION: '1.6.5',
+        VERSION: '1.6.6',
 
         /**
          * Method: Get all post data
@@ -207,7 +208,7 @@
             var wrap = this.wrap;
             return _hasOwnProperty(data, wrap.county.val()) ? data[wrap.county.val()] : data;
         },
-        
+
         /**
          * Method: Serialize the data
          * @return {string}
@@ -253,7 +254,7 @@
                 county = {},
                 def = ['<option value="">縣市</option>', '<option value="">鄉鎮市區</option>'],
                 tpl = [];
-                
+
             switch (obj) {
             case 'district':
                 wrap.district.empty().html(def[1]);
@@ -273,7 +274,7 @@
             }
             wrap.zipcode.val('');
         },
-        
+
         /**
          * Binding the event of the elements
          * @this {twzipcode}
@@ -294,11 +295,21 @@
                     tpl = [];
                 wrap.district.empty();
                 if (val) {
-                    for (district in data[val]) {
-                        if (_hasOwnProperty(data[val], district)) {
-                            tpl.push('<option value="' + district + '">');
-                            tpl.push(district);
-                            tpl.push('</option>');
+                    if (true === opts.zipcodeIntoDistrict) {
+                        for (district in data[val]) {
+                            if (_hasOwnProperty(data[val], district)) {
+                                tpl.push('<option value="' + district + '">');
+                                tpl.push(data[val][district] + ' ' + district);
+                                tpl.push('</option>');
+                            }
+                        }
+                    } else {
+                        for (district in data[val]) {
+                            if (_hasOwnProperty(data[val], district)) {
+                                tpl.push('<option value="' + district + '">');
+                                tpl.push(district);
+                                tpl.push('</option>');
+                            }
                         }
                     }
                     wrap.district.append(tpl.join('')).trigger('change');
@@ -375,15 +386,15 @@
                 self.wrap.zipcode.val(dz).trigger('blur');
             }
         },
-        
+
         /**
          * Geolocation detect
          * @declare
          * @this {twzipcode}
          */
-        geolocation: function () {
+        geoLocation: function () {
         },
-        
+
         /**
          * twzipcode Initialize
          * @this {twzipcode}
@@ -397,9 +408,8 @@
                     county: container.find('[data-role="county"]:first'),
                     district: container.find('[data-role="district"]:first'),
                     zipcode: container.find('[data-role="zipcode"]:first')
-                };
-
-            var countyName = role.county.data('name') || opts.countyName,
+                },
+                countyName = role.county.data('name') || opts.countyName,
                 districtName = role.district.data('name') || opts.districtName,
                 zipcodeName = role.zipcode.data('name') || opts.zipcodeName,
                 readonly = role.zipcode.data('readonly') || opts.readonly;
@@ -427,16 +437,20 @@
                 zipcode: container.find('input[type=text][name="' + zipcodeName + '"]:first')
             };
 
+            if (true === opts.zipcodeIntoDistrict) {
+                self.wrap.zipcode.hide();
+            }
+
             self.role = role;
             // reset the elements
             self.reset();
             // elements event bindings
             self.bindings();
             // geolocation API (declare)
-            self.geolocation();
+            // self.geoLocation();
         }
     };
-    
+
     /**
      * jQuery twzipcode instance
      * @param {Object} options Plugin settings
