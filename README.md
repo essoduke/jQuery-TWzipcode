@@ -59,9 +59,9 @@ $('#twzipcode').twzipcode();
 
 ## 參數 Parameters
 
-### countryName (string) 
+### countyName (string) 
 指定縣市下拉清單元素的表單名稱。  
-_預設值: country_
+_預設值: county_
 
 ### districtName (string)
 指定鄉鎮市區下拉清單元素的表單名稱。  
