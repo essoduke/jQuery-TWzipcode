@@ -1,0 +1,60 @@
+_____________________
+
+jQuery twzipcode Changelog
+_____________________
+
+1.6.7
+恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
+
+1.6.6
+新增 zipcodeIntoDistrict 參數，可隱藏郵遞區號輸入框，並顯示於鄉鎮市區清單內。
+
+1.6.5
+新增 data-name, data-readonly 設置元素名稱及是否唯讀。
+
+1.6.4
+修正預設值無法傳入的問題
+
+1.6.3
+HTML5 自訂容器加入 data-value 可傳入預設值
+
+1.6.2
+修正 destroy 方法註銷 plugin 後不回傳物件導致無法 chain 的錯誤。
+轉換至 MIT 授權
+
+1.6.0
+程式碼重構，增加可讀性。
+增加 data 方法可取得目前選取的縣市郵遞區號資料（若無選取則返回全部資料）。
+暫時移除 detect 使用的 Geolocation API。
+採用 Closure Compiler 製作 production 版本。
+
+1.5.2
+修正資料 (Hsinchu, Chiayi)
+
+1.5.1
+修正 callback 綁定錯誤
+
+1.5.0
+支援 jQuery 2.0
+
+1.4
+改寫原始碼以符合 jslint.com
+修改參數名稱以更符合語意 areaName => districtName, zipName => zipcodeName, areaSel => districtSel, zipSel => zipcodeSel
+加入 destroy, reset, serialize 等方法
+修正當指定元素名稱時，若名稱內包含 [] 會發生錯誤的情形。
+更新 Creative Commons 至 3.0
+
+1.3.1
+因應五都改制，修正為合併後的行政區劃。
+
+1.3.0
+新增輸入郵遞區號取得縣市名稱的功能。（意見提供：ileadu）
+
+1.2.0
+修正 IE6 鄉鎮市區選單只顯示一個以及清單過長的問題
+
+1.1.0
+修正 form reset 時，鄉鎮市區選單無法重置的錯誤
+加入css參數以套用樣式： $(element).twzipcode({ css:[select1, select2, select3] });
+改寫成更簡潔的源碼以增進效能
+使用自訂表單元件名稱
