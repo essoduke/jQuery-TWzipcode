@@ -2,7 +2,7 @@
 
 在網頁建立多組 3 碼台灣郵遞區號表單元素的 jQuery Plugin ─ 讀取快速、不需使用資料庫。
 
-[範例展示 Live Demo](http://app.essoduke.org/twzipcode)
+[範例展示 Live Demo](http://app.essoduke.org/twzipcode/)
 
 
 \* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
