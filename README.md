@@ -30,26 +30,19 @@ $(selector).twzipcode({
 HTML
 ```html
 ...
-<head>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.twzipcode.min.js"></script>
-</head>
-<body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery.twzipcode.min.js"></script>
+
+<!-- Normal -->
+<div id="twzipcode"></div>
   
-  <!-- Normal -->
-  <div id="twzipcode"></div>
+<!-- OR HTML5 data-* (Version 1.5+) -->
   
-  <!-- OR -->
-  <!-- HTML5 data-* (Version 1.5+) -->
-  
-  <div id="twzipcode">
-    <div data-role="county" data-style="Style Name" data-value="110"></div>
-    <div data-role="district" data-style="Style Name" data-value="台北市"></div>
-    <div data-role="zipcode" data-style="Style Name" data-value="信義區"></div>
-  </div>
-  
-</body>
-...
+<div id="twzipcode">
+  <div data-role="county" data-style="Style Name" data-value="110"></div>
+  <div data-role="district" data-style="Style Name" data-value="台北市"></div>
+  <div data-role="zipcode" data-style="Style Name" data-value="信義區"></div>
+</div>
 ```
 
 Javascript
@@ -57,28 +50,35 @@ Javascript
 $('#twzipcode').twzipcode();
 ```
 
-## 參數 Parameters
+## 選項 Options
+
+### css	(Array)
+設置元素的樣式名稱，依序為 `['縣市清單', '鄉鎮市區清單', '郵遞區號輸入框']`
+
+### detect	(boolean)
+`v1.6.7` 是否自動偵測用戶位置。不需引入 Google Maps API。
+_預設值: false_
 
 ### countyName (string) 
 指定縣市下拉清單元素的表單名稱。  
 _預設值: county_
 
-### districtName (string)
-指定鄉鎮市區下拉清單元素的表單名稱。  
-_預設值: district_
-
-### zipcodeName (string)
-指定郵遞區號輸入框元素的表單名稱。  
-_預設值: zipcode_
-
 ### countySel (string)	
 縣市清單的預設值
 
+### districtName (string)
+鄉鎮市區下拉清單的表單名稱。  
+_預設值: district_
+
 ### districtSel (string)
-鄉鎮市區清單的預設值
+鄉鎮市區的預設值
+
+### zipcodeName (string)
+郵遞區號輸入框的表單名稱。  
+_預設值: zipcode_
 
 ### zipcodeSel (string)
-郵遞區號輸入框的預設值
+郵遞區號輸入框的預設值（此選項優先於 countySel, districtSel）
 
 ### zipcodeIntoDistrict (bool)
 `v1.6.6` 是否隱藏郵遞區號輸入框並顯示於鄉鎮市區清單內？
@@ -97,8 +97,7 @@ _預設值: false_
 郵遞區號輸入框是否唯讀？  
 _預設值: true_
 
-### css	(array)
-表單元素樣式名稱，順序格式 `['縣市清單', '鄉鎮市區清單', '郵遞區號輸入框']`
+
 
 ## 方法 Methods
 
@@ -173,7 +172,7 @@ $('#container').twzipcode({
 ```
 ## 支援
 
-請拜訪 http://app.essoduke.org/twzipcode 留言取得支援。
+請拜訪 http://app.essoduke.org/twzipcode/ 取得支援。
 
 ## 授權
 
