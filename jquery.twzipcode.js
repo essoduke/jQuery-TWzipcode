@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014 Essoduke Chang. http://essoduke.org
+ * Copyright (c) 2015 Essoduke Chang. http://essoduke.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.7
+ * @version 1.6.8
  *
  * [Changelog]
  * 恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
@@ -200,7 +200,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.6.7',
+        VERSION: '1.6.8',
 
         /**
          * Method: Get all post data
