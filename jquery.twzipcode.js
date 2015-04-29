@@ -414,9 +414,9 @@
             geolocation.getCurrentPosition(
                 function (loc) {
                     var latlng = {};
-                    if (_hasOwnProperty(loc, 'coords') &&
-                        _hasOwnProperty(loc.coords, 'latitude') &&
-                        _hasOwnProperty(loc.coords, 'longitude')
+                    if (('coords' in loc) &&
+                        ('latitude' in loc.coords) &&
+                        ('longitude' in loc.coords)
                     ) {
                         latlng = [loc.coords.latitude, loc.coords.longitude];
                         $.getJSON(
