@@ -424,7 +424,7 @@
                             {
                                 'key': opts.googleMapsKey,
                                 'sensor' : false,
-                                'address': latlng.join(',')
+                                'latlng': latlng.join(',')
                             },
                             function (data) {
                                 var postal = '';
