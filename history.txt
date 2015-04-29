@@ -3,6 +3,10 @@ _____________________
 jQuery twzipcode Changelog
 _____________________
 
+1.6.9
+增加 googleMapsKey 參數，可設置 Google Maps Geolocation API 的金鑰，以能透過購買用量來解決 API 用量限制。
+修正了無法於 Safari 8.0.5 (OS X) 上定位的問題。
+
 1.6.7
 恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
 

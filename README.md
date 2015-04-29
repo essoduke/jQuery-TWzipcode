@@ -55,6 +55,10 @@ $('#twzipcode').twzipcode();
 ### css	(Array)
 設置元素的樣式名稱，依序為 `['縣市清單', '鄉鎮市區清單', '郵遞區號輸入框']`
 
+### googleMapsKey (string)
+`v1.6.9` Google Maps Geolocation API 金鑰。若您達到 Geocoder 的每日限制用量，可透過購買來提高用量，同時需設置金鑰。
+_預設值: ''_
+
 ### detect	(boolean)
 `v1.6.7` 是否自動偵測用戶位置。不需引入 Google Maps API。
 _預設值: false_
