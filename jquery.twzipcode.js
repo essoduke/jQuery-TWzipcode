@@ -25,7 +25,7 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.8
+ * @version 1.6.9
  *
  * [Changelog]
  * 恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
@@ -180,7 +180,8 @@
             'readonly': false,
             'zipcodeName': 'zipcode',
             'zipcodeSel': '',
-            'zipcodeIntoDistrict': false // v1.6.6
+            'zipcodeIntoDistrict': false, // v1.6.6
+            'googleMapsKey': '' // v1.6.9
         };
         /**
          * DOM of selector
@@ -200,7 +201,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.6.8',
+        VERSION: '1.6.9',
 
         /**
          * Method: Get all post data
@@ -403,7 +404,8 @@
                     'maximumAge': 600000,
                     'timeout': 3000,
                     'enableHighAccuracy': false
-                };
+                },
+                opts = self.options;
 
             if (!geolocation) {
                 return;
@@ -418,8 +420,9 @@
                     ) {
                         latlng = [loc.coords.latitude, loc.coords.longitude];
                         $.getJSON(
-                            '//maps.googleapis.com/maps/api/geocode/json',
+                            'https://maps.googleapis.com/maps/api/geocode/json',
                             {
+                                'key': opts.googleMapsKey,
                                 'sensor' : false,
                                 'address': latlng.join(',')
                             },
