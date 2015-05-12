@@ -25,10 +25,10 @@
  *
  * @author Essoduke Chang
  * @see http://app.essoduke.org/twzipcode/
- * @version 1.6.9
+ * @version 1.7.0
  *
  * [Changelog]
- * 恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
+ * 修正 html5 data-value 優先於 countySel, districtSel, zipcodeSel 的問題。
  *
  * Last Modified 2014.08.29.143917
  */
@@ -201,7 +201,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.6.9',
+        VERSION: '1.7.0',
 
         /**
          * Method: Get all post data
@@ -369,17 +369,29 @@
                 }
             });
 
-            dz = undefined !== self.role.zipcode.data('value') ?
-                 self.role.zipcode.data('value') :
-                 opts.zipcodeSel;
+            dz = opts.zipcodeSel ?
+                 opts.zipcodeSel :
+                 (
+                    undefined !== self.role.zipcode.data('value') ?
+                    self.role.zipcode.data('value') :
+                    opts.zipcodeSel
+                 );
 
-            dc = undefined !== self.role.county.data('value') ?
-                 self.role.county.data('value') :
-                 (_hasOwnProperty(data, opts.countySel) ? opts.countySel : '');
+            dc = opts.countySel ?
+                 opts.countySel :
+                 (
+                    undefined !== self.role.county.data('value') ?
+                    self.role.county.data('value') :
+                    opts.countySel
+                 );
 
-            dd = undefined !== self.role.district.data('value') ?
-                 self.role.district.data('value') :
-                 opts.districtSel;
+            dd = opts.districtSel ?
+                 opts.districtSel :
+                 (
+                    undefined !== self.role.district.data('value') ?
+                    self.role.district.data('value') :
+                    opts.districtSel
+                 );
 
             // Default value
             if (dc) {
