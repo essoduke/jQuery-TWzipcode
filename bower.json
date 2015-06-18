@@ -1,0 +1,24 @@
+{
+  "name": "jquery-twzipcode",
+  "version": "1.7.0",
+  "homepage": "https://github.com/essoduke/jQuery-TWzipcode",
+  "authors": [
+    "essoduke"
+  ],
+  "description": "jquery plugin for tw zipcode",
+  "main": "jquery.twzipcode.js",
+  "keywords": [
+    "jquery",
+    "taiwan",
+    "zip",
+    "zipcode"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
