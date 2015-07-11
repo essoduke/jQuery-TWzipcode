@@ -112,10 +112,10 @@ var data = $(selector).twzipcode('data');
 console.log(data);
 ```
 
-### destory	
+### destroy
 從指定的元素移除 Plugin
 ```javascript
-$(selector).twzipcode('destory');
+$(selector).twzipcode('destroy');
 ```
 
 ### reset
