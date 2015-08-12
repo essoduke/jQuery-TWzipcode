@@ -11,7 +11,7 @@
  * @author essoduke.org
  * @version 1.7.1
  * @license MIT License
- * Last modified: 2015-08-12 16:18:54+08:00
+ * Last modified: 2015-08-12 16:22:13+08:00
  */
 ;(function ($, window, undefined) {
 
