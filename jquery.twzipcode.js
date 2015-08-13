@@ -182,7 +182,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.0',
+        VERSION: '1.7.1',
 
         /**
          * Method: Get all post data
