@@ -118,6 +118,18 @@ console.log(data);
 $(selector).twzipcode('destroy');
 ```
 
+###set
+```javascript
+// 直接設置郵遞區號
+$(selector).twzipcode('set', 110);
+// 傳入縣市、鄉鎮市區
+$(selector).twzipcode('set', {
+    'county': '台北市',
+    'district': '信義區',
+    'zipcode': 110
+});
+```
+
 ### reset
 將指定的元素恢復未選狀態
 ```javascript
