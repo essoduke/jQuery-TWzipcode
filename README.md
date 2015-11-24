@@ -2,7 +2,7 @@
 
 在網頁建立多組 3 碼台灣郵遞區號表單元素的 jQuery Plugin ─ 讀取快速、不需使用資料庫。
 
-[範例展示 Live Demo](http://app.essoduke.org/twzipcode/)
+[範例展示 Live Demo](https://app.essoduke.org/twzipcode/)
 
 
 \* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
@@ -116,6 +116,20 @@ console.log(data);
 從指定的元素移除 Plugin
 ```javascript
 $(selector).twzipcode('destroy');
+```
+
+###get
+```javascript
+$(selector).twzipcode('get', function (el) {
+    /*
+     * {
+     *     county: Object,
+     *     district: Object,
+     *     zipcode: Object
+     * }
+     */
+     console.log($(el.county).val()); // 輸出 county 的值
+});
 ```
 
 ###set
