@@ -1,4 +1,7 @@
 #jQuery TWzipcode Changelog
+###1.7.3
+* 新增 get 方法，可取得元素 DOM。
+* 取消 onCountySelect, onDistrictSelect, onZipcodeKeyUp 返回的參數，this 即為元素本身。
 
 ###1.7.2
 * 新增 set 方法，可設置縣市、鄉鎮市區。
