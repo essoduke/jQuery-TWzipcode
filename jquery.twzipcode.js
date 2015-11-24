@@ -1,18 +1,18 @@
-/*globals $ */
 /**
  * jQuery TWzipcode plugin
- * http://app.essoduke.org/twzipcode/
+ * https://app.essoduke.org/twzipcode/
  * Copyright 2015 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 新增 set 方法，可設置縣市、鄉鎮市區。
+ * 新增 get 方法，可取得元素 DOM。
+ * 取消 onCountySelect, onDistrictSelect, onZipcodeKeyUp 返回的參數，this 即為元素本身。
  *
  * @author essoduke.org
- * @version 1.7.2
+ * @version 1.7.3
  * @license MIT License
  */
-;(function ($, window, undefined) {
+;(function ($, window, document, undefined) {
 
     'use strict';
 
@@ -120,22 +120,6 @@
         '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'},
         '南海諸島': {'東沙': '817', '南沙': '819'}
     };
-
-    /**
-     * _hasOwnProperty for compatibility IE
-     * @param {Object} obj Object
-     * @param {string} property Property name
-     * @return {bool}
-     * @version 2.4.3
-     */
-    function _hasOwnProperty (obj, property) {
-        try {
-            return !window.hasOwnProperty ?
-                   Object.prototype.hasOwnProperty.call(obj, property.toString()) :
-                   obj.hasOwnProperty(property.toString());
-        } catch (ignore) {
-        }
-    }
     /**
      * twzipcode Constructor
      * @param {Object} container HTML element
@@ -177,11 +161,11 @@
         this.init();
     }
     /**
-     * twzipcode prototype
+     * TWzipcode prototype
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.2',
+        VERSION: '1.7.3',
 
         /**
          * Method: Get all post data
@@ -218,12 +202,24 @@
         },
         /**
          * Method: Destroy the container.
-         * @this {twzipcode}
+         * @this {TWzipcode}
          */
         destroy: function () {
             $.data(this.container.get(0), 'twzipcode', null);
             if (this.container.length) {
                 return this.container.empty().off('change.twzipcode keyup.twzipcode blur.twzipcode');
+            }
+        },
+        /**
+         * Method: Get elements of instance
+         * @param {(string|Array)} opts Type name
+         * @param {Function} callback Function callback
+         */
+        get: function (callback) {
+            if ('function' === typeof callback) {
+                callback.call(this, this.wrap);
+            } else {
+                return this.wrap;
             }
         },
         /**
@@ -262,12 +258,12 @@
         },
         /**
          * Method: Reset the selected items to default.
-         * @this {twzipcode}
+         * @this {TWzipcode}
          */
         reset: function (container, obj) {
             var self = this,
                 wrap = self.wrap,
-                county = {},
+                county = '',
                 list = {
                     'county': '<option value="">縣市</option>',
                     'district': '<option value="">鄉鎮市區</option>'
@@ -276,11 +272,11 @@
 
             switch (obj) {
             case 'district':
-                wrap.district.empty().html(list.district);
+                wrap.district.html(list.district);
                 break;
             default:
-                wrap.county.empty().html(list.county);
-                wrap.district.empty().html(list.district);
+                wrap.county.html(list.county);
+                wrap.district.html(list.district);
                 for (county in data) {
                     if ('undefined' !== typeof data[county]) {
                         tpl.push('<option value="' + county + '">' + county + '</option>');
@@ -293,7 +289,7 @@
         },
         /**
          * Binding the event of the elements
-         * @this {twzipcode}
+         * @this {TWzipcode}
          */
         bindings: function () {
 
@@ -307,7 +303,7 @@
             // county
             wrap.county.on('change.twzipcode', function () {
                 var val = $(this).val(),
-                    district = {},
+                    district = '',
                     tpl = [];
 
                 wrap.district.empty();
@@ -337,7 +333,7 @@
                 }
                 // County callback binding
                 if ('function' === typeof opts.onCountySelect) {
-                    opts.onCountySelect.call(this, wrap.county);
+                    opts.onCountySelect.call(this);
                 }
             });
             // District
@@ -348,7 +344,7 @@
                 }
                 // District callback binding
                 if ('function' === typeof opts.onDistrictSelect) {
-                    opts.onDistrictSelect.call(this, wrap.district);
+                    opts.onDistrictSelect.call(this);
                 }
             });
             // Zipcode
@@ -365,12 +361,12 @@
                         for (i in data) {
                             if ('undefined' !== typeof data[i]) {
                                 for (j in data[i]) {
-                                    if ('undefined' !== typeof data[i][j]) {
-                                        if (val === data[i][j]) {
-                                            wrap.county.val(i).trigger('change.twzipcode');
-                                            wrap.district.val(j).trigger('change.twzipcode');
-                                            break;
-                                        }
+                                    if ('undefined' !== typeof data[i][j] &&
+                                        val === data[i][j]
+                                    ) {
+                                        wrap.county.val(i).trigger('change.twzipcode');
+                                        wrap.district.val(j).trigger('change.twzipcode');
+                                        break;
                                     }
                                 }
                             }
@@ -379,7 +375,7 @@
                 }
                 // Zipcode callback binding
                 if ('function' === typeof opts.onZipcodeKeyUp) {
-                    opts.onZipcodeKeyUp.call(this, wrap.zipcode);
+                    opts.onZipcodeKeyUp.call(this);
                 }
             });
 
@@ -420,7 +416,7 @@
         },
         /**
          * Geolocation detect
-         * @this {twzipcode}
+         * @this {TWzipcode}
          */
         geoLocation: function () {
 			var self = this,
@@ -448,7 +444,7 @@
                             'https://maps.googleapis.com/maps/api/geocode/json',
                             {
                                 'key': opts.googleMapsKey,
-                                'sensor' : false,
+                                'sensor': false,
                                 'latlng': latlng.join(',')
                             },
                             function (data) {
@@ -469,14 +465,14 @@
                     }
                 },
                 function (error) {
-                    //console.error(error);
+                    console.error(error);
                 },
                 options
             );
         },
         /**
          * twzipcode Initialize
-         * @this {twzipcode}
+         * @this {TWzipcode}
          */
         init: function () {
 
@@ -558,4 +554,5 @@
         }
     };
 
-}(jQuery, window));
+})(window.jQuery || {}, window, document);
+//#EOF
