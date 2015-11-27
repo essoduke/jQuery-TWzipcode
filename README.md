@@ -27,7 +27,7 @@ $(selector).twzipcode({
 ## 安裝 Install
 ### bower
 ```
-bower install jquery-TWzipcode
+$bower install jquery-TWzipcode
 ```
 
 ## 使用 Usage
