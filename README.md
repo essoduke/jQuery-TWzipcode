@@ -24,6 +24,11 @@ $(selector).twzipcode({
   language: 'lang/zh-tw' //不需加上 .js
 });
 ```
+## 安裝 Install
+### bower
+```
+bower install jquery-TWzipcode
+```
 
 ## 使用 Usage
 
