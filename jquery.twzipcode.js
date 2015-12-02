@@ -5,8 +5,9 @@
  *
  * Changelog
  * -------------------------------
- * 新增 get 方法，可取得元素 DOM。
- * 取消 onCountySelect, onDistrictSelect, onZipcodeKeyUp 返回的參數，this 即為元素本身。
+ * 鄉鎮市區修正:
+ * 東沙、南沙編在高雄市轄區內
+ * 三地門補上鄉字
  *
  * @author essoduke.org
  * @version 1.7.4
