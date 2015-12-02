@@ -143,6 +143,7 @@
             'onZipcodeKeyUp': null,      // v1.5
             'readonly': false,
             'zipcodeName': 'zipcode',
+            'zipcodePlaceholder': '郵遞區號',
             'zipcodeSel': '',
             'zipcodeIntoDistrict': false, // v1.6.6
             'googleMapsKey': '' // v1.6.9
@@ -487,6 +488,7 @@
                 countyName = role.county.data('name') || opts.countyName,
                 districtName = role.district.data('name') || opts.districtName,
                 zipcodeName = role.zipcode.data('name') || opts.zipcodeName,
+                zipcodePlaceholder = role.zipcode.data('placeholder') || opts.zipcodePlaceholder,
                 readonly = role.zipcode.data('readonly') || opts.readonly;
 
             // Elements create
@@ -501,7 +503,7 @@
                 .appendTo(role.district.length ? role.district : container);
 
             $('<input/>')
-                .attr({'type': 'text', 'name': zipcodeName})
+                .attr({'type': 'text', 'name': zipcodeName, 'placeholder': zipcodePlaceholder})
                 .prop('readonly', readonly)
                 .addClass(role.zipcode.data('style') || ('undefined' !== typeof opts.css[2] ? opts.css[2] : ''))
                 .appendTo(role.zipcode.length ? role.zipcode : container);
