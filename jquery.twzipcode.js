@@ -9,7 +9,7 @@
  * 取消 onCountySelect, onDistrictSelect, onZipcodeKeyUp 返回的參數，this 即為元素本身。
  *
  * @author essoduke.org
- * @version 1.7.3
+ * @version 1.7.4
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -164,7 +164,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.3',
+        VERSION: '1.7.4',
 
         /**
          * Method: Get all post data
