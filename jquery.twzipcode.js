@@ -5,12 +5,10 @@
  *
  * Changelog
  * -------------------------------
- * 鄉鎮市區修正:
- * 東沙、南沙編在高雄市轄區內
- * 三地門補上鄉字
+ * 加入 placeholder 的支援（by visioncan）
  *
  * @author essoduke.org
- * @version 1.7.4
+ * @version 1.7.5
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -166,7 +164,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.4',
+        VERSION: '1.7.5',
 
         /**
          * Method: Get all post data
