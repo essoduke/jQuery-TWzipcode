@@ -1,4 +1,13 @@
 #jQuery TWzipcode Changelog
+###1.7.6
+* 修正高雄市田寮鄉為田寮區，湖內鄉為湖內區（by kevin50406418）
+ 
+###1.7.5
+* 加入 zipcode input placeholder 的支援（by visioncan）
+
+###1.7.4
+* 鄉鎮市區修正: 東沙、南沙編在高雄市轄區內、三地門補上鄉字
+
 ###1.7.3
 * 新增 get 方法，可取得元素 DOM。
 * 取消 onCountySelect, onDistrictSelect, onZipcodeKeyUp 返回的參數，this 即為元素本身。
