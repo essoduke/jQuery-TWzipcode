@@ -5,12 +5,10 @@
  *
  * Changelog
  * -------------------------------
- * 修正郵遞區號資料錯誤 by kevin50406418
- * 高雄市 田寮鄉 => 田寮區
- * 高雄市 湖內鄉 => 湖內區
+ * 修正 readonly 會造成 keyup, blur 無法被 detect 觸發的錯誤。
  *
  * @author essoduke.org
- * @version 1.7.6
+ * @version 1.7.7
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -167,7 +165,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.6',
+        VERSION: '1.7.7',
 
         /**
          * Method: Get all post data
@@ -351,6 +349,7 @@
             });
             // Zipcode
             wrap.zipcode.on('keyup.twzipcode blur.twzipcode', function () {
+                
                 var obj = $(this),
                     val = '',
                     i   = '',
@@ -358,18 +357,16 @@
                 obj.val(obj.val().replace(/[^0-9]/g, ''));
                 val = obj.val().toString();
 
-                if (true !== opts.readonly) {
-                    if (3 === val.length) {
-                        for (i in data) {
-                            if ('undefined' !== typeof data[i]) {
-                                for (j in data[i]) {
-                                    if ('undefined' !== typeof data[i][j] &&
-                                        val === data[i][j]
-                                    ) {
-                                        wrap.county.val(i).trigger('change.twzipcode');
-                                        wrap.district.val(j).trigger('change.twzipcode');
-                                        break;
-                                    }
+                if (3 === val.length) {
+                    for (i in data) {
+                        if ('undefined' !== typeof data[i]) {
+                            for (j in data[i]) {
+                                if ('undefined' !== typeof data[i][j] &&
+                                    val === data[i][j]
+                                ) {
+                                    wrap.county.val(i).trigger('change.twzipcode');
+                                    wrap.district.val(j).trigger('change.twzipcode');
+                                    break;
                                 }
                             }
                         }
@@ -421,6 +418,7 @@
          * @this {TWzipcode}
          */
         geoLocation: function () {
+            
 			var self = this,
                 geolocation = navigator.geolocation,
                 options = {
@@ -436,6 +434,7 @@
 
             geolocation.getCurrentPosition(
                 function (loc) {
+                    
                     var latlng = {};
                     if (('coords' in loc) &&
                         ('latitude' in loc.coords) &&
