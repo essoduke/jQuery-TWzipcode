@@ -1,4 +1,7 @@
 #jQuery TWzipcode Changelog
+###1.7.7
+* 修正 readonly 會造成 keyup, blur 無法被 detect 觸發的錯誤。
+
 ###1.7.6
 * 修正高雄市田寮鄉為田寮區，湖內鄉為湖內區（by kevin50406418）
  
