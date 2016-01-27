@@ -1,14 +1,14 @@
 /**
  * jQuery TWzipcode plugin
- * https://app.essoduke.org/twzipcode/
- * Copyright 2015 essoduke.org, Licensed MIT.
+ * https://code.essoduke.org/twzipcode/
+ * Copyright 2016 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 修正 readonly 會造成 keyup, blur 無法被 detect 觸發的錯誤。
+ * 修正使用 html data-value 的方式傳入預設值無效的錯誤。
  *
  * @author essoduke.org
- * @version 1.7.7
+ * @version 1.7.8
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -132,18 +132,15 @@
          */
         var defaults = {
             'countyName': 'county',
-            'countySel': '',
             'css': [],
             'detect': false,             // v1.6.7
             'districtName': 'district',
-            'districtSel': '',
             'onCountySelect': null,      // v1.5
             'onDistrictSelect': null,    // v1.5
             'onZipcodeKeyUp': null,      // v1.5
             'readonly': false,
             'zipcodeName': 'zipcode',
             'zipcodePlaceholder': '郵遞區號',
-            'zipcodeSel': '',
             'zipcodeIntoDistrict': false, // v1.6.6
             'googleMapsKey': '' // v1.6.9
         };
@@ -165,7 +162,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.7',
+        VERSION: '1.7.8',
 
         /**
          * Method: Get all post data
