@@ -1,7 +1,7 @@
 {
 	"name": "jquery-TWzipcode",
 	"homepage": "https://code.essoduke.org/twzipcode/",
-	"version": "1.7.7",
+	"version": "1.7.8",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/essoduke/jQuery-TWzipcode.git"
