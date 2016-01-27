@@ -1,4 +1,7 @@
 #jQuery TWzipcode Changelog
+###1.7.8
+* 修正使用 html data-value 的方式傳入預設值無效的錯誤。
+
 ###1.7.7
 * 修正 readonly 會造成 keyup, blur 無法被 detect 觸發的錯誤。
 
