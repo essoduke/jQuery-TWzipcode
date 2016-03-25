@@ -6,10 +6,10 @@
 * 修正 readonly 會造成 keyup, blur 無法被 detect 觸發的錯誤。
 
 ###1.7.6
-* 修正高雄市田寮鄉為田寮區，湖內鄉為湖內區（by kevin50406418）
+* 修正高雄市田寮鄉為田寮區，湖內鄉為湖內區（By kevin50406418）
  
 ###1.7.5
-* 加入 zipcode input placeholder 的支援（by visioncan）
+* 加入 zipcode input placeholder 的支援（By visioncan）
 
 ###1.7.4
 * 鄉鎮市區修正: 東沙、南沙編在高雄市轄區內、三地門補上鄉字
@@ -28,8 +28,11 @@
 * 修正 html5 data-value 優先於 countySel, districtSel, zipcodeSel 的問題。
 
 ###1.6.9
-* 增加 googleMapsKey 參數，可設置 Google Maps Geolocation API 的金鑰，以能透過購買用量來解決 API 用量限制。
-* 修正了無法於 Safari 8.0.5 (OS X) 上定位的問題。
+* 增加 googleMapsKey 參數，可設置 Google Maps Geolocation API 的金鑰，以能透過購買用量來解決 API 用量限制。(By Patrick Wang)
+* 修正了無法於 Safari 8.0.5 (OS X) 上定位的問題。(By Patrick Wang)
+
+###1.6.8
+* 更改桃園縣升格後行政區域的名稱。(By syj610226)
 
 ###1.6.7
 * 恢復 detect(bool) 參數的支援，可設置是否自動讀取用戶的位置（瀏覽器需 GeoLocation API 支援）
@@ -38,7 +41,7 @@
 * 新增 zipcodeIntoDistrict 參數，可隱藏郵遞區號輸入框，並顯示於鄉鎮市區清單內。
 
 ###1.6.5
-* 新增 data-name, data-readonly 設置元素名稱及是否唯讀。
+* 新增 data-name, data-readonly 設置元素名稱及是否唯讀。(By Wake Liu)
 
 ###1.6.4
 * 修正預設值無法傳入的問題
