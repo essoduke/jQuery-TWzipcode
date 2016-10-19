@@ -1,4 +1,7 @@
 #jQuery TWzipcode Changelog
+###1.7.9
+* 新增 hideCounty, hideDistrict 屬性，可控制隱藏符合的縣市或鄉鎮市區名稱。
+
 ###1.7.8
 * 修正使用 html data-value 的方式傳入預設值無效的錯誤。
 
