@@ -5,10 +5,10 @@
  *
  * Changelog
  * -------------------------------
- * 修正使用 html data-value 的方式傳入預設值無效的錯誤。
+ * 新增 hideCounty, hideDistrict 屬性，可控制隱藏符合的縣市或鄉鎮市區名稱。
  *
  * @author essoduke.org
- * @version 1.7.8
+ * @version 1.7.9
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -135,6 +135,9 @@
             'css': [],
             'detect': false,             // v1.6.7
             'districtName': 'district',
+            'googleMapsKey': '', // v1.6.9
+            'hideCounty': [], // v1.7.9
+            'hideDistrict': [], // v1.7.9
             'onCountySelect': null,      // v1.5
             'onDistrictSelect': null,    // v1.5
             'onZipcodeKeyUp': null,      // v1.5
@@ -142,7 +145,6 @@
             'zipcodeName': 'zipcode',
             'zipcodePlaceholder': '郵遞區號',
             'zipcodeIntoDistrict': false, // v1.6.6
-            'googleMapsKey': '' // v1.6.9
         };
         /**
          * DOM of selector
@@ -162,7 +164,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.8',
+        VERSION: '1.7.9',
 
         /**
          * Method: Get all post data
@@ -260,6 +262,7 @@
         reset: function (container, obj) {
             var self = this,
                 wrap = self.wrap,
+                opts = self.options,
                 county = '',
                 list = {
                     'county': '<option value="">縣市</option>',
@@ -275,7 +278,7 @@
                 wrap.county.html(list.county);
                 wrap.district.html(list.district);
                 for (county in data) {
-                    if ('undefined' !== typeof data[county]) {
+                    if ('undefined' !== typeof data[county] && -1 === opts.hideCounty.indexOf(county)) {
                         tpl.push('<option value="' + county + '">' + county + '</option>');
                     }
                 }
@@ -308,7 +311,9 @@
                 if (val) {
                     if (true === opts.zipcodeIntoDistrict) {
                         for (district in data[val]) {
-                            if ('undefined' !== typeof data[val][district]) {
+                            if ('undefined' !== typeof data[val][district] &&
+                                (-1 === opts.hideDistrict.indexOf(district) && -1 === opts.hideDistrict.indexOf(data[val][district]))
+                            ) {
                                 tpl.push('<option value="' + district + '">');
                                 tpl.push(data[val][district] + ' ' + district);
                                 tpl.push('</option>');
@@ -316,7 +321,9 @@
                         }
                     } else {
                         for (district in data[val]) {
-                            if ('undefined' !== typeof data[val][district]) {
+                            if ('undefined' !== typeof data[val][district] &&
+                                (-1 === opts.hideDistrict.indexOf(district) && -1 === opts.hideDistrict.indexOf(data[val][district]))
+                            ) {
                                 tpl.push('<option value="' + district + '">');
                                 tpl.push(district);
                                 tpl.push('</option>');
@@ -346,7 +353,7 @@
             });
             // Zipcode
             wrap.zipcode.on('keyup.twzipcode blur.twzipcode', function () {
-                
+
                 var obj = $(this),
                     val = '',
                     i   = '',
@@ -415,7 +422,7 @@
          * @this {TWzipcode}
          */
         geoLocation: function () {
-            
+
 			var self = this,
                 geolocation = navigator.geolocation,
                 options = {
@@ -431,7 +438,7 @@
 
             geolocation.getCurrentPosition(
                 function (loc) {
-                    
+
                     var latlng = {};
                     if (('coords' in loc) &&
                         ('latitude' in loc.coords) &&
