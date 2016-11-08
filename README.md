@@ -1,6 +1,6 @@
 # jQuery-TWzipcode
 
-在網頁建立多組 3 碼台灣郵遞區號表單元素的 jQuery Plugin ─ 讀取快速、不需使用資料庫。
+在網頁建立多組 3 碼臺灣郵遞區號表單元素的 jQuery Plugin ─ 讀取快速、不需使用資料庫。
 
 [範例展示 Live Demo](https://code.essoduke.org/twzipcode/)
 
@@ -45,7 +45,7 @@ HTML
   
 <div id="twzipcode">
   <div data-role="county" data-style="Style Name" data-value="110"></div>
-  <div data-role="district" data-style="Style Name" data-value="台北市"></div>
+  <div data-role="district" data-style="Style Name" data-value="臺北市"></div>
   <div data-role="zipcode" data-style="Style Name" data-value="信義區"></div>
 </div>
 ```
