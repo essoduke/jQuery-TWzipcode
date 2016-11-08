@@ -107,7 +107,7 @@ _預設值: false_
 _預設值: true_
 
 ### hideCounty (array)
-`v1.7.9` 要隱藏的縣市名稱，例如 ['台北市', '宜蘭縣'...]
+`v1.7.9` 要隱藏的縣市名稱，例如 ['臺北市', '宜蘭縣'...]
 _預設值: []_
 
 ### hideDistrict (array)
@@ -150,7 +150,7 @@ $(selector).twzipcode('get', function (el) {
 $(selector).twzipcode('set', 110);
 // 傳入縣市、鄉鎮市區
 $(selector).twzipcode('set', {
-    'county': '台北市',
+    'county': '臺北市',
     'district': '信義區',
     'zipcode': 110
 });
