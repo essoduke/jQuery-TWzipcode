@@ -1,7 +1,7 @@
 {
 	"name": "jquery-TWzipcode",
 	"homepage": "https://code.essoduke.org/twzipcode/",
-	"version": "1.7.9",
+	"version": "1.7.10",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/essoduke/jQuery-TWzipcode.git"
@@ -9,7 +9,7 @@
 	"authors": [
 		"Essoduke Chang <essoduke@gmail.com>"
 	],
-	"description": "建立三碼台灣郵遞區號下拉清單的 jQuery Plugin &mdash; 讀取快速、不需資料庫。",
+	"description": "建立三碼臺灣郵遞區號下拉清單的 jQuery Plugin &mdash; 讀取快速、不需資料庫。",
 	"main": "jquery.twzipcode.min.js",
 	"keywords": [
 		"jquery",
