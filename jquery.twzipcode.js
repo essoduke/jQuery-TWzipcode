@@ -1,12 +1,12 @@
 /**
  * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
- * Copyright 2017 essoduke.org, Licensed MIT.
+ * Copyright 2016 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 修正 get 方法，若第二個參數傳入 county, district, zipcode 將會直接返回值而不是 DOM 物件。
- * 修正 detect 方法，現在可以除了 true|false 也可以傳入 callback funciotn。
+ * 修正 get 方法，若第二個參數傳入 county, district, zipcode 將直接返回值而不是 DOM 物件。
+ * 修正 detect 方法，現在除了 true|false 也可以傳入 callback funciotn。
  *
  * @author essoduke.org
  * @version 1.7.11
@@ -216,15 +216,27 @@
          * @param {Function} callback Function callback
          */
         get: function (callback) {
-            if ('function' === typeof callback) {
-                callback.call(this, this.wrap);
-            } else if ('string' === typeof callback) {
-                if ('undefined' !== typeof this.wrap[callback]) {
-                    return this.wrap[callback].val();
+
+            var self   = this,
+                result = [],
+                n;
+
+            function putin (o) {
+                if ('undefined' !== typeof self.wrap[o]) {
+                    result.push(self.wrap[o].val());
                 }
-            } else {
-                return this.wrap;
             }
+
+            if ('function' === typeof callback) {
+                callback.call(this, this.wrap.county.val(), this.wrap.district.val(), this.wrap.zipcode.val());
+            } else if ('string' === typeof callback) {
+                callback.split(',').forEach(putin);
+            } else if (Array.isArray(callback)) {
+                callback.forEach(putin);
+            } else {
+                result = this.wrap;
+            }
+            return result;
         },
         /**
          * Method: Set value for elements.
@@ -234,9 +246,9 @@
 
             var self = this,
                 def = {
-                    'county': '',
-                    'district': '',
-                    'zipcode': ''
+                    'county'   : '',
+                    'district' : '',
+                    'zipcode'  : ''
                 },
                 opt = $.extend({}, def, opts);
 
