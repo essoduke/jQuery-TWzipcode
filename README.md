@@ -64,7 +64,7 @@ $('#twzipcode').twzipcode();
 `v1.6.9` Google Maps Geolocation API 金鑰。若您達到 Geocoder 的每日限制用量，可透過購買來提高用量，同時需設置金鑰。
 _預設值: ''_
 
-### detect	(boolean)
+### detect	(boolean|Function)
 `v1.6.7` 是否自動偵測用戶位置。不需引入 Google Maps API。
 _預設值: false_
 
@@ -132,15 +132,18 @@ $(selector).twzipcode('destroy');
 
 ###get
 ```javascript
-$(selector).twzipcode('get', function (el) {
-    /*
-     * {
-     *     county: Object,
-     *     district: Object,
-     *     zipcode: Object
-     * }
-     */
-     console.log($(el.county).val()); // 輸出 county 的值
+// 取得縣市 county（返回字串）
+var county = $(selector).twzipcode('get', 'county');
+
+// 取得縣市 county 以及鄉鎮市區 district（返回陣列）
+var result = $(selector).twzipcode('get', 'county,district'); // 以 , 字串傳入
+var result = $(selector).twzipcode('get', ['county', 'district']);  // 以陣列傳入
+
+// Callback
+$(selector).twzipcode('get', function (county, district, zipcode) {
+    console.log(county);   // 縣市
+    console.log(district); // 鄉鎮市區
+    console.log(zipcode);  // 郵遞區號
 });
 ```
 
