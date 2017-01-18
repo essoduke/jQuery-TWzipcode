@@ -8,7 +8,7 @@
  * 修正異體字「台」為正體字「臺」
  *
  * @author essoduke.org
- * @version 1.7.10
+ * @version 1.7.11
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -164,7 +164,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.10',
+        VERSION: '1.7.11',
 
         /**
          * Method: Get all post data
@@ -217,6 +217,10 @@
         get: function (callback) {
             if ('function' === typeof callback) {
                 callback.call(this, this.wrap);
+            } else if ('string' === typeof callback) {
+                if ('undefined' !== typeof this.wrap[callback]) {
+                    return this.wrap[callback].val();
+                }
             } else {
                 return this.wrap;
             }
@@ -421,9 +425,9 @@
          * Geolocation detect
          * @this {TWzipcode}
          */
-        geoLocation: function () {
+        geoLocation: function (callback) {
 
-			var self = this,
+            var self = this,
                 geolocation = navigator.geolocation,
                 options = {
                     'maximumAge': 600000,
@@ -432,7 +436,7 @@
                 },
                 opts = self.options;
 
-            if (!geolocation) {
+            if (!geolocation || !callback) {
                 return;
             }
 
@@ -465,6 +469,9 @@
                                     if (postal) {
                                         self.wrap.zipcode.val(postal.toString()).trigger('blur.twzipcode');
                                     }
+                                }
+                                if ('function' === typeof callback) {
+                                    callback.call(self, loc);
                                 }
                             });
                     }
@@ -528,9 +535,7 @@
             // Elements events binding
             self.bindings();
             // Geolocation
-            if (true === opts.detect) {
-                self.geoLocation();
-            }
+            self.geoLocation(opts.detect);
         }
     };
     /**
