@@ -1,15 +1,14 @@
 /**
  * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
- * Copyright 2016 essoduke.org, Licensed MIT.
+ * Copyright 2017 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 修正 get 方法，若第二個參數傳入 county, district, zipcode 將直接返回值而不是 DOM 物件。
- * 修正 detect 方法，現在除了 true|false 也可以傳入 callback funciotn。
+ * 新增 html5 [data-*] 新增為元素屬性的功能。
  *
  * @author essoduke.org
- * @version 1.7.11
+ * @version 1.7.12
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -132,20 +131,20 @@
          * @type {Object}
          */
         var defaults = {
-            'countyName': 'county',
-            'css': [],
-            'detect': false,             // v1.6.7
-            'districtName': 'district',
-            'googleMapsKey': '', // v1.6.9
-            'hideCounty': [], // v1.7.9
-            'hideDistrict': [], // v1.7.9
-            'onCountySelect': null,      // v1.5
-            'onDistrictSelect': null,    // v1.5
-            'onZipcodeKeyUp': null,      // v1.5
-            'readonly': false,
-            'zipcodeName': 'zipcode',
-            'zipcodePlaceholder': '郵遞區號',
-            'zipcodeIntoDistrict': false, // v1.6.6
+            'countyName'          : 'county',
+            'css'                 : [],
+            'detect'              : false,             // v1.6.7
+            'districtName'        : 'district',
+            'googleMapsKey'       : '', // v1.6.9
+            'hideCounty'          : [], // v1.7.9
+            'hideDistrict'        : [], // v1.7.9
+            'onCountySelect'      : null,      // v1.5
+            'onDistrictSelect'    : null,    // v1.5
+            'onZipcodeKeyUp'      : null,      // v1.5
+            'readonly'            : false,
+            'zipcodeName'         : 'zipcode',
+            'zipcodePlaceholder'  : '郵遞區號',
+            'zipcodeIntoDistrict' : false, // v1.6.6
         };
         /**
          * DOM of selector
@@ -165,7 +164,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.11',
+        VERSION: '1.7.12',
 
         /**
          * Method: Get all post data
@@ -398,6 +397,29 @@
                     opts.onZipcodeKeyUp.call(this);
                 }
             });
+
+            // Put [data-*] into attributes of element
+            (function () {
+                var zip      = self.role.zipcode.data(),
+                    county   = self.role.county.data(),
+                    district = self.role.district.data(),
+                    n;
+                for (n in zip) {
+                    if ('role' !== n) {
+                        self.role.zipcode.find(':input').attr(n, zip[n]);
+                    }
+                }
+                for (n in county) {
+                    if ('role' !== n) {
+                        self.role.county.find('select').attr(n, county[n]);
+                    }
+                }
+                for (n in district) {
+                    if ('role' !== n) {
+                        self.role.district.find('select').attr(n, district[n]);
+                    }
+                }
+            }());
 
             dz = 'undefined' !== typeof opts.zipcodeSel ?
                  opts.zipcodeSel :
