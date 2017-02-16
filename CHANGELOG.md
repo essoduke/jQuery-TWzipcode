@@ -1,4 +1,7 @@
 #jQuery TWzipcode Changelog
+###1.7.12
+* 新增 html5 [data-*] 新增為元素屬性的功能。
+
 ###1.7.11
 * 修正 get 方法，若第二個參數傳入 county, district, zipcode 將會直接返回值而不是 DOM 物件。
 * 修正 detect 方法，現在可以除了 true|false 也可以傳入 callback funciotn。
