@@ -130,7 +130,7 @@ console.log(data);
 $(selector).twzipcode('destroy');
 ```
 
-###get
+### get
 ```javascript
 // 取得縣市 county（返回字串）
 var county = $(selector).twzipcode('get', 'county');
@@ -147,7 +147,7 @@ $(selector).twzipcode('get', function (county, district, zipcode) {
 });
 ```
 
-###set
+### set
 ```javascript
 // 直接設置郵遞區號
 $(selector).twzipcode('set', 110);
