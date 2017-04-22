@@ -8,7 +8,7 @@
  * 新增 html5 [data-*] 新增為元素屬性的功能。
  *
  * @author essoduke.org
- * @version 1.7.12
+ * @version 1.7.13
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -141,6 +141,7 @@
             'onCountySelect'      : null,      // v1.5
             'onDistrictSelect'    : null,    // v1.5
             'onZipcodeKeyUp'      : null,      // v1.5
+            'afterZipcodeSetup'   : null, // v1.7.13 add by Mxp.TW
             'readonly'            : false,
             'zipcodeName'         : 'zipcode',
             'zipcodePlaceholder'  : '郵遞區號',
@@ -571,6 +572,10 @@
             self.bindings();
             // Geolocation
             self.geoLocation(opts.detect);
+            // v.1.7.13 binding afterZipcodeSetup event.
+            if ('function' === typeof opts.afterZipcodeSetup) {
+                    opts.afterZipcodeSetup.call(this);
+            }
         }
     };
     /**

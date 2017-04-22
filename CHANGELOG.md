@@ -1,4 +1,7 @@
 # jQuery TWzipcode Changelog
+### 1.7.13
+* 新增 `afterZipcodeSetup` 事件於初始化後觸發 
+
 ### 1.7.12
 * 新增 html5 [data-*] 新增為元素屬性的功能。
 
