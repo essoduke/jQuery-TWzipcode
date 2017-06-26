@@ -1,14 +1,13 @@
 /**
  * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
- * Copyright 2017 essoduke.org, Licensed MIT.
+ * Copyright 2016 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 新增 html5 [data-*] 新增為元素屬性的功能。
+ * 修正新竹縣「峨嵋鄉」為「峨眉鄉」
  *
  * @author essoduke.org
- * @version 1.7.13
  * @license MIT License
  */
 ;(function ($, window, document, undefined) {
@@ -35,7 +34,7 @@
         '新竹縣': {
           '竹北市': '302', '湖口鄉': '303', '新豐鄉': '304', '新埔鎮': '305', '關西鎮': '306', '芎林鄉': '307',
           '寶山鄉': '308', '竹東鎮': '310', '五峰鄉': '311', '橫山鄉': '312', '尖石鄉': '313', '北埔鄉': '314',
-          '峨嵋鄉': '315'
+          '峨眉鄉': '315'
         },
         '桃園市': {
           '中壢區': '320', '平鎮區': '324', '龍潭區': '325', '楊梅區': '326', '新屋區': '327', '觀音區': '328',
@@ -141,7 +140,6 @@
             'onCountySelect'      : null,      // v1.5
             'onDistrictSelect'    : null,    // v1.5
             'onZipcodeKeyUp'      : null,      // v1.5
-            'afterZipcodeSetup'   : null, // v1.7.13 add by Mxp.TW
             'readonly'            : false,
             'zipcodeName'         : 'zipcode',
             'zipcodePlaceholder'  : '郵遞區號',
@@ -165,7 +163,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.12',
+        VERSION: '1.7.13',
 
         /**
          * Method: Get all post data
@@ -572,10 +570,6 @@
             self.bindings();
             // Geolocation
             self.geoLocation(opts.detect);
-            // v.1.7.13 binding afterZipcodeSetup event.
-            if ('function' === typeof opts.afterZipcodeSetup) {
-                    opts.afterZipcodeSetup.call(this);
-            }
         }
     };
     /**
