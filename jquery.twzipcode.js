@@ -1,7 +1,7 @@
 /**
  * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
- * Copyright 2016 essoduke.org, Licensed MIT.
+ * Copyright 2017 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
@@ -163,7 +163,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.13',
+        VERSION: '1.7.14',
 
         /**
          * Method: Get all post data
