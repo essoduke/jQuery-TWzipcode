@@ -1,4 +1,7 @@
 # jQuery TWzipcode Changelog
+### 1.7.14
+* 修正新竹縣「峨嵋鄉」為「峨眉鄉」
+
 ### 1.7.13
 * 新增 `afterZipcodeSetup` 事件於初始化後觸發 
 
