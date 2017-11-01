@@ -3,8 +3,6 @@
  * https://code.essoduke.org/twzipcode/
  * Copyright 2017 essoduke.org, Licensed MIT.
  *
- * VERSION: v2.0.1
- *
  * @author  Essoduke Chang<essoduke@gmail.com>
  * @license MIT License
  */
@@ -160,8 +158,9 @@
                         db[camelCaseName] = attr.value;
                     }
                 });
+
                 if ('string' === typeof key && (key in db)) {
-                    return JSON.parse(db[key]);
+                    return tryParseJSON(db[key]) ? JSON.parse(db[key]) : db[key].replace(/\"/gi, '');
                 } else if ('undefined' === typeof key) {
                     return db;
                 }
@@ -211,6 +210,23 @@
     // bind event
     function off (el, event, fn) {
         el.removeEventListener(event, fn, false);
+    }
+
+    //
+    function tryParseJSON (jsonString) {
+        try {
+            var o = JSON.parse(jsonString);
+            // Handle non-exception-throwing cases:
+            // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+            // but... JSON.parse(null) returns null, and typeof null === "object",
+            // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+            if (o && typeof o === "object") {
+                return o;
+            }
+        }
+        catch (ignore) {
+        }
+        return false;
     }
 
     // getJSON
@@ -807,9 +823,18 @@
 
             var id = Math.random().toString(36).substr(2, 10);
 
+            if (0 === el.querySelectorAll('[data-role]').length) {
+                //
+                ['county', 'district', 'zipcode'].forEach(function (role) {
+                    var DOM = document.createElement('div');
+                    data.set(DOM, 'role', role);
+                    el.appendChild(DOM);
+                });
+            }
+
             Array.prototype.forEach.call(el.querySelectorAll('[data-role]'), function (child) {
 
-                var role  = child.getAttribute('data-role').toLowerCase();
+                var role  = data.get(child, 'role').toLowerCase();
 
                 switch (role) {
                     case 'county':
@@ -828,6 +853,7 @@
                         break;
                 }
             });
+
         });
     };
 
@@ -953,7 +979,7 @@
      * Version
      * @constructor
      */
-    TWzipcode.VERSION = '2.0.0';
+    TWzipcode.VERSION = '2.0.2';
     return TWzipcode;
 
 }));
