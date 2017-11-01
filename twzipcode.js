@@ -1,16 +1,16 @@
 /**
- * TWzipcode.js
+ * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
  * Copyright 2017 essoduke.org, Licensed MIT.
  *
- * VERSION: beta 0.1
+ * VERSION: v2.0.1
  *
  * @author  Essoduke Chang<essoduke@gmail.com>
  * @license MIT License
  */
 (function (root, factory) {
 
-    "use strict";
+    'use strict';
 
     if (typeof define === 'function' && define.amd) {
         define(factory);
@@ -80,7 +80,7 @@
         },
         '嘉義市': {'東區': '600', '西區': '600'},
         '嘉義縣': {
-          '番路鄉': '602', '梅山鄉': '603', '竹崎鄉': '604', '阿里山': '605', '中埔鄉': '606', '大埔鄉': '607',
+          '番路鄉': '602', '梅山鄉': '603', '竹崎鄉': '604', '阿里山鄉': '605', '中埔鄉': '606', '大埔鄉': '607',
           '水上鄉': '608', '鹿草鄉': '611', '太保市': '612', '朴子市': '613', '東石鄉': '614', '六腳鄉': '615',
           '新港鄉': '616', '民雄鄉': '621', '大林鎮': '622', '溪口鄉': '623', '義竹鄉': '624', '布袋鎮': '625'
         },
@@ -133,14 +133,19 @@
     };
 
     /**
-     *
+     * Get or Set data-attribute
      */
     var data = (function () {
 
         var db = {};
 
         return {
-            //
+            /**
+             * Get attribute
+             *
+             * @param {Object} elem Element object
+             * @param {string} key  Key name
+             */
             'get': function (elem, key) {
 
                 if (!elem) {
@@ -161,7 +166,13 @@
                     return db;
                 }
             },
-            //
+            /**
+             * Set data-attribute
+             *
+             * @param {Object} elem Element object
+             * @param {string} key  Key name
+             * @param {string} val  Key value
+             */
             'set': function (elem, key, val) {
 
                 if (!elem) {
@@ -173,8 +184,8 @@
                 }
 
                 Object.keys(db).forEach(function (k) {
-                    var attrName = "data-" + k.replace(/[A-Z]/g, function ($0) {
-                        return "-" + $0.toLowerCase();
+                    var attrName = 'data-' + k.replace(/[A-Z]/g, function ($0) {
+                        return '-' + $0.toLowerCase();
                     });
                     elem.setAttribute(attrName, JSON.stringify(db[k]));
                 });
@@ -211,10 +222,10 @@
             var str = [], p;
             for (p in obj) {
                 if (obj.hasOwnProperty(p)) {
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    str.push([encodeURIComponent(p), encodeURIComponent(obj[p])].join('='));
                 }
             }
-            return str.join("&");
+            return str.join('&');
         }
 
         request.open('GET', [url, serialize(params)].join('?') , true);
@@ -248,7 +259,7 @@
         // Check if a deep merge
         if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
             deep = arguments[0];
-            i++;
+            i += 1;
         }
 
         // Merge the object into the extended object
@@ -256,17 +267,15 @@
             for ( var prop in obj ) {
                 if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
                     // If deep merge and property is an object, merge properties
-                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
-                        extended[prop] = deepExtend( true, extended[prop], obj[prop] );
-                    } else {
-                        extended[prop] = obj[prop];
-                    }
+                    extended[prop] = deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ?
+                                     deepExtend( true, extended[prop], obj[prop] ) :
+                                     obj[prop];
                 }
             }
         };
 
         // Loop through each object and conduct a merge
-        for ( ; i < length; i++ ) {
+        for (; i < length; i++ ) {
             var obj = arguments[i];
             merge(obj);
         }
@@ -280,6 +289,7 @@
     function trigger (el, eventName) {
 
         var event;
+
         // Namespace
         if (-1 !== eventName.indexOf('.')) {
             if (window.CustomEvent) {
@@ -303,7 +313,7 @@
         if (document.createEvent) {
             el.dispatchEvent(event);
         } else {
-            el.fireEvent("on" + event.eventType, event);
+            el.fireEvent('on' + event.eventType, event);
         }
     }
 
@@ -312,16 +322,15 @@
      */
     function isElement (obj) {
         try {
-          //Using W3 DOM2 (works for FF, Opera and Chrome)
-          return obj instanceof HTMLElement;
-        }
-        catch(e){
-          //Browsers not supporting W3 DOM2 don't have HTMLElement and
-          //an exception is thrown and we end up here. Testing some
-          //properties that all elements have. (works on IE7)
-          return (typeof obj === 'object') &&
-            (obj.nodeType===1) && (typeof obj.style === 'object') &&
-            (typeof obj.ownerDocument === 'object');
+            //Using W3 DOM2 (works for FF, Opera and Chrome)
+            return obj instanceof HTMLElement;
+        } catch (ignore) {
+            //Browsers not supporting W3 DOM2 don't have HTMLElement and
+            //an exception is thrown and we end up here. Testing some
+            //properties that all elements have. (works on IE7)
+            return (typeof obj === 'object') &&
+                   (obj.nodeType===1) && (typeof obj.style === 'object') &&
+                   (typeof obj.ownerDocument === 'object');
         }
     }
 
@@ -335,47 +344,57 @@
          * @type {Object}
          */
         var twzipcodeOpts = {
-            'county': {
-                'label'    : '縣市',
-                'name'     : 'county',    //表單名稱
-                'value'    : '',          //預設值
-                'css'      : '',          //樣式名稱
-                'hidden'   : false,       //要隱藏的縣市
-                'required' : true,
-                'onSelect' : null
-            },
-            'district': {
-                'label'    : '鄉鎮市區',
-                'name'     : 'district',  //表單名稱
-                'value'    : '',          //預設值
-                'css'      : '',          //樣式名稱
-                'hidden'   : false,       //要隱藏的鄉鎮市區
-                'required' : true,
-                'onSelect' : null
-            },
-            'zipcode': {
-                'name'       : 'zipcode', //表單名稱
-                'value'      : '',        //預設值
-                'css'        : '',        //樣式名稱
-                'hidden'     : false,     //要隱藏的鄉鎮市區
-                'type'       : 'text',
-                'min'        : 0,
-                'max'        : 0,
-                'step'       : 1,
-                'placeholder': '',
-                'maxlength'  : 3,
-                'pattern'    : '\\d+',
-                'readonly'   : false,
-                'required'   : true,
-                'onKeyUp'    : null,
-                'onFocus'    : null,
-                'onBlur'     : null
-            },
-            'GMAP_KEY'  : '', //
-            'detect'    : false,
-            'combine'   : false,
-            'data'      : {}
-        };
+                'county': {
+                    'label'    : '縣市',
+                    'name'     : 'county',    //表單名稱
+                    'value'    : '',          //預設值
+                    'css'      : '',          //樣式名稱
+                    'hidden'   : false,       //要隱藏的縣市
+                    'required' : true,
+                    'onSelect' : null
+                },
+                'district': {
+                    'label'    : '鄉鎮市區',
+                    'name'     : 'district',  //表單名稱
+                    'value'    : '',          //預設值
+                    'css'      : '',          //樣式名稱
+                    'hidden'   : false,       //要隱藏的鄉鎮市區
+                    'required' : true,
+                    'onSelect' : null
+                },
+                'zipcode': {
+                    'name'       : 'zipcode', //表單名稱
+                    'value'      : '',        //預設值
+                    'css'        : '',        //樣式名稱
+                    'hidden'     : false,     //要隱藏的鄉鎮市區
+                    'type'       : 'text',
+                    'min'        : 0,
+                    'max'        : 0,
+                    'step'       : 1,
+                    'placeholder': '',
+                    'maxlength'  : 3,
+                    'pattern'    : '\\d+',
+                    'readonly'   : false,
+                    'required'   : true,
+                    'onKeyUp'    : null,
+                    'onFocus'    : null,
+                    'onBlur'     : null
+                },
+                'GMAP_KEY'  : '', //
+                'detect'    : false,
+                'combine'   : false,
+                'island'    : true,
+                'data'      : {}
+            };
+
+        /**
+         * 離島縣市、鄉鎮市區
+         * @type {Array}
+         */
+        this.islands = [
+            '釣魚臺列嶼', '東沙群島', '南沙群島', '綠島鄉', '蘭嶼鄉',
+            '金門縣', '連江縣', '澎湖縣'
+        ];
 
         /**
          * Plugin Namespace
@@ -460,11 +479,15 @@
             o,
             c;
 
+        if (false === self.getOpt('island')) {
+            hide = hide.concat(self.islands);
+        }
+
         if (opts.hidden) {
             if (Array.isArray(opts.hidden)) {
-                hide = opts.hidden;
+                hide.concat(opts.hidden);
             } else if ('string' === typeof opts.hidden) {
-                hide = opts.hidden.toString().split(',');
+                hide.concat(opts.hidden.toString().split(','));
             }
             hide = hide.map(function (item) {
                 return transfer(item.trim());
@@ -501,7 +524,7 @@
             var district = self.getEl(id, 'district'),
                 zipcode  = self.getEl(id, 'zipcode'),
                 value    = transfer(this.value),
-                hidden   = [],
+                hide     = [],
                 sub      = [],
                 combine  = '',
                 selected,
@@ -513,13 +536,18 @@
                 opts.onSelect.call(this, evt);
             }
 
+            if (false === self.getOpt('island')) {
+                hide = hide.concat(self.islands);
+            }
+
             if (opts.hasOwnProperty('hidden')) {
                 if ('string' === typeof opts.hidden) {
-                    hidden = opts.hidden.split(',');
+                    hide.concat(opts.hidden.split(','));
                 } else if (Array.isArray(opts.hidden)) {
-                    hidden = opts.hidden;
+                    hide.concat(opts.hidden);
                 }
-                hidden = hidden.map(function (item) {
+
+                hide = hide.map(function (item) {
                     return transfer(item.trim());
                 });
             }
@@ -527,7 +555,7 @@
             if (district.length) {
                 if (self.database.hasOwnProperty(value)) {
                     for (cn in self.database[value]) {
-                        if (Array.isArray(hidden) && (!hidden.length) || (hidden.length && -1 === hidden.indexOf(cn))) {
+                        if (Array.isArray(hide) && (!hide.length) || (hide.length && -1 === hide.indexOf(cn))) {
                             selected = cn === nv ? ' selected' : '';
                             combine  = self.getOpt('combine') ? (self.database[value][cn] + ' ') : '';
                             sub.push([
@@ -632,13 +660,11 @@
             for (n in self.database) {
                 if (self.database[n]) {
                     for (o in self.database[n]) {
-                        if (self.database[n][o]) {
-                            if (zipcode === self.database[n][o]) {
-                                return {
-                                    'county': n,
-                                    'district': o
-                                };
-                            }
+                        if (zipcode === self.database[n][o]) {
+                            return {
+                                'county'   : n,
+                                'district' : o
+                            };
                         }
                     }
                 }
@@ -657,7 +683,6 @@
                 trigger(elCounty, 'change');
                 elDistrict.value = code.district;
                 trigger(elDistrict, 'change');
-
                 c = code.county;
                 d = code.district;
             }
@@ -754,9 +779,14 @@
         geolocation.watchPosition(success, error, options);
     };
 
-    // Get element
+    /**
+     * Get element by id
+     *
+     * @param  {string} id   Element Id
+     * @param  {string} type Element type
+     * @return {Object}
+     */
     TWzipcode.prototype.getEl = function (id, type) {
-        //return $(['#', type, '-', id].join(''));
         return document.querySelector(['#', type, '-', id].join(''));
     };
 
@@ -842,9 +872,9 @@
      */
     TWzipcode.prototype.get = function (callback) {
 
-        var self       = this,
-            pp = [],
-            result     = [];
+        var self   = this,
+            pp     = [],
+            result = [];
 
         Array.prototype.forEach.call(self.container, function (el) {
             var county   = el.querySelector('[id^="county-"]'),
@@ -877,9 +907,7 @@
      * 輸出序列化字串
      */
     TWzipcode.prototype.serialize = function () {
-
         var result     = [];
-
         Array.prototype.forEach.call(this.container, function (el) {
             var county   = el.querySelector('[id^="county-"]'),
                 district = el.querySelector('[id^="district-"]'),
@@ -895,7 +923,6 @@
      * 移除 Plugin
      */
     TWzipcode.prototype.destroy = function () {
-
         Array.prototype.forEach.call(this.container, function (el) {
             var county   = el.querySelector('[id^="county-"]'),
                 district = el.querySelector('[id^="district-"]'),
@@ -926,8 +953,7 @@
      * Version
      * @constructor
      */
-    TWzipcode.VERSION = 'beta 0.1';
-
+    TWzipcode.VERSION = '2.0.0';
     return TWzipcode;
 
 }));
