@@ -1,6 +1,7 @@
 /**
- * jQuery TWzipcode plugin
- * https://code.essoduke.org/twzipcode/
+ * TWzipcode JS
+ * https://code.essoduke.org/twzipcode/nojquery
+
  * Copyright 2017 essoduke.org, Licensed MIT.
  *
  * @author  Essoduke Chang<essoduke@gmail.com>
@@ -938,11 +939,11 @@
             var county   = el.querySelector('[id^="county-"]'),
                 district = el.querySelector('[id^="district-"]'),
                 zipcode  = el.querySelector('[id^="zipcode-"]');
-            result.push(elCounty.getAttribute('name')   + '=' + elCounty.value);
-            result.push(elDistrict.getAttribute('name') + '=' + elDistrict.value);
-            result.push(elZipcode.getAttribute('name')  + '=' + elZipcode.value);
+            result.push(county.getAttribute('name')   + '=' + encodeURIComponent(county.value));
+            result.push(district.getAttribute('name') + '=' + encodeURIComponent(district.value));
+            result.push(zipcode.getAttribute('name')  + '=' + encodeURIComponent(zipcode.value));
         });
-        return resulresult;
+        return result.join('&');
     };
 
     /**
@@ -979,7 +980,7 @@
      * Version
      * @constructor
      */
-    TWzipcode.VERSION = '2.0.2';
+    TWzipcode.VERSION = '2.0.3';
     return TWzipcode;
 
 }));
