@@ -7,6 +7,9 @@
 
 \* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
 
+# TWzipcodeJS No-jQuery
+免 jQuery 並支援 AMD 的純 JS 版本
+[TWzipcodeJS No-Jquery](https://code.essoduke.org/twzipcode/nojquery)
 
 ## 多國語言 i18n
 
