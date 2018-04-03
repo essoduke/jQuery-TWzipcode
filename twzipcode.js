@@ -1,8 +1,9 @@
 /**
  * TWzipcode JS
  * https://code.essoduke.org/twzipcode/nojquery
-
- * Copyright 2017 essoduke.org, Licensed MIT.
+ * Copyright 2018 essoduke.org, Licensed MIT.
+ *
+ * VERSION: v2.0.3
  *
  * @author  Essoduke Chang<essoduke@gmail.com>
  * @license MIT License
@@ -159,9 +160,8 @@
                         db[camelCaseName] = attr.value;
                     }
                 });
-
                 if ('string' === typeof key && (key in db)) {
-                    return tryParseJSON(db[key]) ? JSON.parse(db[key]) : db[key].replace(/\"/gi, '');
+                    return JSON.parse(db[key]);
                 } else if ('undefined' === typeof key) {
                     return db;
                 }
@@ -211,23 +211,6 @@
     // bind event
     function off (el, event, fn) {
         el.removeEventListener(event, fn, false);
-    }
-
-    //
-    function tryParseJSON (jsonString) {
-        try {
-            var o = JSON.parse(jsonString);
-            // Handle non-exception-throwing cases:
-            // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-            // but... JSON.parse(null) returns null, and typeof null === "object",
-            // so we must check for that, too. Thankfully, null is falsey, so this suffices:
-            if (o && typeof o === "object") {
-                return o;
-            }
-        }
-        catch (ignore) {
-        }
-        return false;
     }
 
     // getJSON
@@ -824,18 +807,9 @@
 
             var id = Math.random().toString(36).substr(2, 10);
 
-            if (0 === el.querySelectorAll('[data-role]').length) {
-                //
-                ['county', 'district', 'zipcode'].forEach(function (role) {
-                    var DOM = document.createElement('div');
-                    data.set(DOM, 'role', role);
-                    el.appendChild(DOM);
-                });
-            }
-
             Array.prototype.forEach.call(el.querySelectorAll('[data-role]'), function (child) {
 
-                var role  = data.get(child, 'role').toLowerCase();
+                var role  = child.getAttribute('data-role').toLowerCase();
 
                 switch (role) {
                     case 'county':
@@ -854,7 +828,6 @@
                         break;
                 }
             });
-
         });
     };
 
@@ -939,11 +912,11 @@
             var county   = el.querySelector('[id^="county-"]'),
                 district = el.querySelector('[id^="district-"]'),
                 zipcode  = el.querySelector('[id^="zipcode-"]');
-            result.push(county.getAttribute('name')   + '=' + encodeURIComponent(county.value));
-            result.push(district.getAttribute('name') + '=' + encodeURIComponent(district.value));
-            result.push(zipcode.getAttribute('name')  + '=' + encodeURIComponent(zipcode.value));
+            result.push(elCounty.getAttribute('name')   + '=' + elCounty.value);
+            result.push(elDistrict.getAttribute('name') + '=' + elDistrict.value);
+            result.push(elZipcode.getAttribute('name')  + '=' + elZipcode.value);
         });
-        return result.join('&');
+        return resulresult;
     };
 
     /**
