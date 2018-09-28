@@ -1,9 +1,8 @@
 /**
- * TWzipcode JS
+ * TWzipcode
  * https://code.essoduke.org/twzipcode/nojquery
  * Copyright 2018 essoduke.org, Licensed MIT.
  *
- * VERSION: v2.0.3
  *
  * @author  Essoduke Chang<essoduke@gmail.com>
  * @license MIT License
@@ -384,7 +383,7 @@
                 'detect'    : false,
                 'combine'   : false,
                 'island'    : true,
-                'data'      : {}
+                'database'  : {}
             };
 
         /**
@@ -565,6 +564,10 @@
                     }
                     district.innerHTML = sub.join('');
                     trigger(district, event);
+                } else {
+                    if ('value' in zipcode) {
+                        zipcode.value = '';
+                    }
                 }
             }
         }
@@ -616,10 +619,6 @@
     TWzipcode.prototype.createInput = function (el, id, role, opt) {
 
         var self       = this,
-            elCounty   = self.getEl(id, 'county'),
-            elDistrict = self.getEl(id, 'district'),
-            county     = elCounty.value,
-            district   = elDistrict.value,
             opts       = deepExtend(true, opt, data.get(el)),
             dom        = document.createElement('input'),
             c;
@@ -672,9 +671,13 @@
         }
 
         // Events binding
-        on(dom, 'keyup', function (evt, ) {
+        on(dom, 'keyup', function (evt) {
 
-            var code = findCode(this.value),
+            var elCounty   = self.getEl(id, 'county'),
+                elDistrict = self.getEl(id, 'district'),
+                county     = elCounty ? elCounty.value : {},
+                district   = elDistrict ? elDistrict.value : {},
+                code       = findCode(this.value),
                 c,
                 d;
 
@@ -740,7 +743,6 @@
 
                 params.latlng = [loc.coords.latitude, loc.coords.longitude].join(',');
 
-                //$.getJSON('https://maps.googleapis.com/maps/api/geocode/json', params, function (resp) {
                 getJSON('https://maps.googleapis.com/maps/api/geocode/json', params, function (resp) {
 
                     var postal  = '';
@@ -923,17 +925,21 @@
      * 移除 Plugin
      */
     TWzipcode.prototype.destroy = function () {
-        Array.prototype.forEach.call(this.container, function (el) {
-            var county   = el.querySelector('[id^="county-"]'),
-                district = el.querySelector('[id^="district-"]'),
-                zipcode  = el.querySelector('[id^="zipcode-"]');
-            county.parentNode.removeChild(county);
-            district.parentNode.removeChild(district);
-            zipcode.parentNode.removeChild(zipcode);
-            el.removeAttribute('id');
-            el.removeAttribute('data-twzipcode');
+        try {
+            Array.prototype.forEach.call(this.container, function (el) {
+                var county   = el.querySelector('[id^="county-"]'),
+                    district = el.querySelector('[id^="district-"]'),
+                    zipcode  = el.querySelector('[id^="zipcode-"]');
+                county.parentNode.removeChild(county);
+                district.parentNode.removeChild(district);
+                zipcode.parentNode.removeChild(zipcode);
+                el.removeAttribute('id');
+                el.removeAttribute('data-twzipcode');
 
-        });
+            });
+        } catch (ignore) {
+            console.warn(ignore);
+        }
     };
 
     /**
@@ -953,7 +959,7 @@
      * Version
      * @constructor
      */
-    TWzipcode.VERSION = '2.0.3';
+    TWzipcode.VERSION = '2.0.4';
     return TWzipcode;
 
 }));
