@@ -1,11 +1,11 @@
 /**
  * jQuery TWzipcode plugin
  * https://code.essoduke.org/twzipcode/
- * Copyright 2017 essoduke.org, Licensed MIT.
+ * Copyright 2018 essoduke.org, Licensed MIT.
  *
  * Changelog
  * -------------------------------
- * 修正新竹縣「峨嵋鄉」為「峨眉鄉」
+ * 縣市自動轉換簡化字「台/臺」
  *
  * @author essoduke.org
  * @license MIT License
@@ -118,6 +118,17 @@
         '連江縣': {'南竿鄉': '209', '北竿鄉': '210', '莒光鄉': '211', '東引鄉': '212'},
         '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'}
     };
+
+    /**
+     * 轉換異體字 [台]為 [臺]
+     *
+     * @param  {string} value
+     * @return {string}
+     */
+    function transfer (value) {
+        return 'string' === typeof value ? value.replace(/[台]+/gi, '臺') : value;
+    }
+
     /**
      * twzipcode Constructor
      * @param {Object} container HTML element
@@ -163,7 +174,7 @@
      */
     TWzipcode.prototype = {
 
-        VERSION: '1.7.14',
+        VERSION: '1.7.15',
 
         /**
          * Method: Get all post data
@@ -357,9 +368,10 @@
             });
             // District
             wrap.district.on('change.twzipcode', function () {
-                var val = $(this).val();
-                if (wrap.county.val()) {
-                    wrap.zipcode.val(data[wrap.county.val()][val]);
+                var val = $(this).val(),
+                    cv  = transfer(wrap.county.val());
+                if (cv) {
+                    wrap.zipcode.val(data[cv][val]);
                 }
                 // District callback binding
                 if ('function' === typeof opts.onDistrictSelect) {
@@ -446,8 +458,9 @@
 
             // Default value
             if (dc) {
+                dc = transfer(dc);
                 self.wrap.county.val(dc).trigger('change.twzipcode');
-                if ('undefined' !== typeof data[dc][dd]) {
+                if ('undefined' !== typeof data[dc] && 'undefined' !== typeof data[dc][dd]) {
                     self.wrap.district.val(dd).trigger('change.twzipcode');
                 }
             }
