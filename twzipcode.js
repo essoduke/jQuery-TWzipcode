@@ -1,7 +1,7 @@
 /**
  * TWzipcode
  * https://code.essoduke.org/twzipcode/nojquery
- * Copyright 2018 essoduke.org, Licensed MIT.
+ * Copyright 2019 essoduke.org, Licensed MIT.
  *
  *
  * @author  Essoduke Chang<essoduke@gmail.com>
@@ -160,7 +160,7 @@
                     }
                 });
                 if ('string' === typeof key && (key in db)) {
-                    return JSON.parse(db[key]);
+                    return JSON.parse(['"', htmldecode(db[key]), '"'].join(''));
                 } else if ('undefined' === typeof key) {
                     return db;
                 }
@@ -184,13 +184,25 @@
 
                 Object.keys(db).forEach(function (k) {
                     var attrName = 'data-' + k.replace(/[A-Z]/g, function ($0) {
-                        return '-' + $0.toLowerCase();
-                    });
-                    elem.setAttribute(attrName, JSON.stringify(db[k]));
+                            return '-' + $0.toLowerCase();
+                        }),
+                        attrValue = htmlencode(JSON.stringify(db[k]).slice(1, -1));
+                    elem.setAttribute(attrName, attrValue);
                 });
             }
         };
     }());
+
+    function htmlencode (s) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(s));
+        return div.innerHTML;
+    }
+    function htmldecode (s) {
+        var div = document.createElement('div');
+        div.innerHTML = s;
+        return div.innerText || div.textContent;
+    }
 
     /**
      * 轉換異體字 [台]為 [臺]
@@ -495,11 +507,16 @@
 
         html.push(defItem.join(''));
 
+        // if (opts.hasOwnProperty('value') && opts.value) {
+        //     nv = opts.value;
+        // }
+
         if ('county' === role) {
             for (c in self.database) {
                 if ('undefined' !== typeof self.database[c]) {
                     if (-1 === hide.indexOf(c)) {
-                        html.push(['<option value="', c, '">', c, '</option>'].join(''));
+                        selected = nv === c ? ' selected="selected"' : '';
+                        html.push(['<option value="', c, '" ', selected, '>', c, '</option>'].join(''));
                     }
                 }
             }
@@ -511,6 +528,7 @@
         dom.innerHTML = html.join('');
 
         data.set(dom, 'default', defItem.join(''));
+
         dom.removeAttribute('data-role');
 
         if (opts.required) {
@@ -522,7 +540,9 @@
 
             var district = self.getEl(id, 'district'),
                 zipcode  = self.getEl(id, 'zipcode'),
-                value    = transfer(this.value),
+                //value    = transfer(this.value),
+                value    = transfer(this.options[this.selectedIndex].value),
+                sv       = data.get(district, 'value'),
                 hide     = [],
                 sub      = [],
                 combine  = '',
@@ -555,7 +575,7 @@
                 if (self.database.hasOwnProperty(value)) {
                     for (cn in self.database[value]) {
                         if (Array.isArray(hide) && (!hide.length) || (hide.length && -1 === hide.indexOf(cn))) {
-                            selected = cn === nv ? ' selected' : '';
+                            selected = cn === nv || cn === sv ? ' selected="selected"' : '';
                             combine  = self.getOpt('combine') ? (self.database[value][cn] + ' ') : '';
                             sub.push([
                                 '<option value="', cn, '"', selected, '>', (combine + cn), '</option>'
@@ -603,6 +623,8 @@
         }
 
         if ('string' === typeof nv && nv) {
+
+
             setTimeout(function () {
                 o = dom.querySelector('[value="' + nv + '"]');
                 if (o) {
@@ -830,6 +852,11 @@
                         break;
                 }
             });
+
+            // Elements created callback @v2.0.5
+            if (opts.hasOwnProperty('created') && 'function' === typeof opts.created) {
+                opts.created.call(self);
+            }
         });
     };
 
@@ -838,10 +865,11 @@
      */
     TWzipcode.prototype.set = function (input) {
 
-        var self       = this,
-            result     = [];
+        var self   = this,
+            result = [];
 
         Array.prototype.forEach.call(self.container, function (el) {
+
             var county   = el.querySelector('[id^="county-"]'),
                 district = el.querySelector('[id^="district-"]'),
                 zipcode  = el.querySelector('[id^="zipcode-"]');
@@ -850,18 +878,23 @@
                 zipcode.value = input;
                 trigger(zipcode, 'keyup');
             } else {
+
                 if ('object' === typeof input) {
                     if (input.hasOwnProperty('county')) {
                         county.value = transfer(input.county);
                         trigger(county, 'change');
                     }
                     if (input.hasOwnProperty('district')) {
-                        district.value = transfer(input.district);
-                        trigger(district, 'change');
+                        setTimeout(function () {
+                            district.value = transfer(input.district);
+                            trigger(district, 'change');
+                        }, 5);
                     }
                     if (input.hasOwnProperty('zipcode')) {
-                        zipcode.value = parseInt(input.zipcode);
-                        trigger(zipcode, 'keyup');
+                        setTimeout(function () {
+                            zipcode.value = parseInt(input.zipcode);
+                            trigger(zipcode, 'keyup');
+                        }, 10);
                     }
                 }
             }
@@ -959,7 +992,7 @@
      * Version
      * @constructor
      */
-    TWzipcode.VERSION = '2.0.4';
+    TWzipcode.VERSION = '2.0.5';
     return TWzipcode;
 
 }));
