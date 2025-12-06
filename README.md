@@ -4,9 +4,9 @@
 
 \* **jQuery-TWzipcode v1.5 以後版本需 jQuery v1.6（支援 2.0）**
 
-# TWzipcodeJS No-jQuery
+# TWzipcode.js
 免 jQuery 並支援 AMD 的純 JS 版本
-[TWzipcodeJS No-Jquery](https://code.essoduke.org/twzipcode)
+[twzipcode.js](https://code.essoduke.org/twzipcode)
 
 新增參數
 
